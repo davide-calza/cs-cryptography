@@ -1,0 +1,9 @@
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\bin\Debug\App.exe.config
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\bin\Debug\App.exe
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\bin\Debug\App.pdb
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\obj\Debug\App.csprojResolveAssemblyReference.cache
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\obj\Debug\App.Properties.Resources.resources
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\obj\Debug\App.csproj.GenerateResource.Cache
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\obj\Debug\App.csproj.CoreCompileInputs.cache
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\obj\Debug\App.exe
+\\Repo\Studenti$\Informatica\SezBi\5Bi\Davide.Calza\Documenti\5Bi\Tecnologie\Cryptography\App\obj\Debug\App.pdb
