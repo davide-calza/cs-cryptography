@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FilesEnDecrypter
 {
-    class Crypto_Utils
+    static class CryptoUtils
     {
 
         // https://msdn.microsoft.com/it-it/library/system.security.cryptography.symmetricalgorithm(v=vs.110).aspx
