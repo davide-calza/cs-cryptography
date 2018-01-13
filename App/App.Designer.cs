@@ -33,7 +33,7 @@ namespace FilesEnDecrypter
             this.btn_encrypt = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btn_decrypt = new MaterialSkin.Controls.MaterialRaisedButton();
             this.btn_md5 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.lblLogs = new System.Windows.Forms.Label();
+            this.txtLogs = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btn_encrypt
@@ -84,23 +84,25 @@ namespace FilesEnDecrypter
             this.btn_md5.UseVisualStyleBackColor = true;
             this.btn_md5.Click += new System.EventHandler(this.btn_md5_Click);
             // 
-            // lblLogs
+            // txtLogs
             // 
-            this.lblLogs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(50)))), ((int)(((byte)(56)))));
-            this.lblLogs.Font = new System.Drawing.Font("Segoe UI Semibold", 13F, System.Drawing.FontStyle.Bold);
-            this.lblLogs.ForeColor = System.Drawing.Color.White;
-            this.lblLogs.Location = new System.Drawing.Point(19, 220);
-            this.lblLogs.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.lblLogs.Name = "lblLogs";
-            this.lblLogs.Size = new System.Drawing.Size(542, 258);
-            this.lblLogs.TabIndex = 4;
+            this.txtLogs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(50)))), ((int)(((byte)(56)))));
+            this.txtLogs.Font = new System.Drawing.Font("Segoe UI", 13F);
+            this.txtLogs.ForeColor = System.Drawing.Color.White;
+            this.txtLogs.Location = new System.Drawing.Point(22, 234);
+            this.txtLogs.Multiline = true;
+            this.txtLogs.Name = "txtLogs";
+            this.txtLogs.ReadOnly = true;
+            this.txtLogs.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtLogs.Size = new System.Drawing.Size(546, 241);
+            this.txtLogs.TabIndex = 4;
             // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 487);
-            this.Controls.Add(this.lblLogs);
+            this.Controls.Add(this.txtLogs);
             this.Controls.Add(this.btn_md5);
             this.Controls.Add(this.btn_decrypt);
             this.Controls.Add(this.btn_encrypt);
@@ -115,6 +117,6 @@ namespace FilesEnDecrypter
         private MaterialSkin.Controls.MaterialRaisedButton btn_encrypt;
         private MaterialSkin.Controls.MaterialRaisedButton btn_decrypt;
         private MaterialSkin.Controls.MaterialRaisedButton btn_md5;
-        private System.Windows.Forms.Label lblLogs;
+        private System.Windows.Forms.TextBox txtLogs;
     }
 }

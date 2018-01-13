@@ -11,14 +11,14 @@ namespace FilesEnDecrypter
     static class ClassACM
     {
         /// <summary>
-        /// Encrypts a list of files
+        /// Encrypt a list of files
         /// </summary>
         /// <param name="files">List of files to encrypt</param>
         /// <param name="outDir">Output directory</param>
         /// <param name="key">Symmetric key</param>
         /// <returns>List of logs</returns>
         /// <exception cref="Exception"></exception>
-        public static List<string> EncryptFileList(IEnumerable<string> files, string outDir, string key)
+        public static IEnumerable<string> EncryptFileList(IEnumerable<string> files, string outDir, string key)
         {
             var logs = new List<string>();
             
@@ -40,15 +40,15 @@ namespace FilesEnDecrypter
             return logs;
         }
         
-        // <summary>
-        /// Decrypts a list of files
+        /// <summary>
+        /// Decrypt a list of files
         /// </summary>
         /// <param name="files">List of files to decrypt</param>
         /// <param name="outDir">Output directory</param>
         /// <param name="key">Symmetric key</param>
         /// <returns>List of logs</returns>
         /// <exception cref="Exception"></exception>
-        public static List<string> DecryptFileList(IEnumerable<string> files, string outDir, string key)
+        public static IEnumerable<string> DecryptFileList(IEnumerable<string> files, string outDir, string key)
         {
             var logs = new List<string>();
             
@@ -69,17 +69,16 @@ namespace FilesEnDecrypter
 
             return logs;
         }
-
         
         /// <summary>
-        /// Encrypts a file in ACM format (Algoritmo Crittografico Marconi)
+        /// Encrypt a file in ACM format (Algoritmo Crittografico Marconi)
         /// </summary>
         /// <param name="fileName">Path of the file to encrypt</param>
         /// <param name="outDir">Output directory</param>
         /// <param name="key">Symmetric key</param>
         /// <returns>Logs</returns>
         /// <exception cref="Exception"></exception>
-        public static string EncryptFile(string fileName, string outDir, string key)
+        private static string EncryptFile(string fileName, string outDir, string key)
         {
             try
             {
@@ -112,7 +111,7 @@ namespace FilesEnDecrypter
                 sb.AppendLine("@@@@@");
                 sb.Append(sAcm);
 
-                //Writes on file (fOut)
+                //Write on file (fOut)
                 File.WriteAllText(fOut, sb.ToString());
 
                 return "File successfully encrypted: " + fOut;
@@ -125,13 +124,13 @@ namespace FilesEnDecrypter
         }
 
         /// <summary>
-        /// Decrypts a file in ACM format (Algoritmo Crittografico Marconi)
+        /// Decrypt a file in ACM format (Algoritmo Crittografico Marconi)
         /// </summary>
         /// <param name="fileName">Path of the file to decrypt</param>
         /// <param name="outDir">Output directory</param>
         /// <param name="key">Symmetric key</param>
         /// <returns>Logs</returns>
-        public static string DecryptFile(string fileName, string outDir, string key)
+        private static string DecryptFile(string fileName, string outDir, string key)
         {
             try
             {
@@ -152,14 +151,14 @@ namespace FilesEnDecrypter
 
                 var sb = new StringBuilder();
 
-                //Reads text
+                //Read text
                 for (var i = 6; i < sFile.Count; i++)
                 {
                     var sAcm = CryptoUtils.DecryptAES(sFile.ElementAt(i), key);
                     sb.Append(sAcm);
                 }
 
-                //Writes on file
+                //Write on file
                 File.WriteAllText(fOut, sb.ToString());
 
                 //MD5 verify
@@ -177,7 +176,7 @@ namespace FilesEnDecrypter
         }
 
         /// <summary>
-        /// Verifies MD5 of the input file
+        /// Verify MD5 of the input file
         /// </summary>
         /// <param name="fileName">Path of the file </param>
         /// <returns>MD5 Hash</returns>
