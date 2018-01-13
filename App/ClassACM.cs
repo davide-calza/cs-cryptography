@@ -10,13 +10,64 @@ namespace FilesEnDecrypter
 {
     static class ClassACM
     {
-        public static List<string> EncodeFileList(List<string> files, string outDir, string key)
+        /// <summary>
+        /// Encrypts a list of files
+        /// </summary>
+        /// <param name="files">List of files to encrypt</param>
+        /// <param name="outDir">Output directory</param>
+        /// <param name="key">Symmetric key</param>
+        /// <returns>List of logs</returns>
+        /// <exception cref="Exception"></exception>
+        public static List<string> EncryptFileList(IEnumerable<string> files, string outDir, string key)
         {
-            return null;
+            var logs = new List<string>();
+            
+            try
+            {
+                if (!Directory.Exists(outDir))
+                    throw new Exception("Directory not found");
+                if (key == null | key == "")
+                    throw new Exception("Null key");
+            }
+            catch (Exception e)
+            {
+                logs.Add("Exception on encryption: " + e);
+                return logs;
+            }
+
+            logs.AddRange(files.Select(f => EncryptFile(f, outDir, key)));
+
+            return logs;
         }
-        public static List<string> DecodeFileList(List<string> files, string outDir, string key)
+        
+        // <summary>
+        /// Decrypts a list of files
+        /// </summary>
+        /// <param name="files">List of files to decrypt</param>
+        /// <param name="outDir">Output directory</param>
+        /// <param name="key">Symmetric key</param>
+        /// <returns>List of logs</returns>
+        /// <exception cref="Exception"></exception>
+        public static List<string> DecryptFileList(IEnumerable<string> files, string outDir, string key)
         {
-            return null;
+            var logs = new List<string>();
+            
+            try
+            {
+                if (!Directory.Exists(outDir))
+                    throw new Exception("Directory not found");
+                if (key == null | key == "")
+                    throw new Exception("Null key");
+            }
+            catch (Exception e)
+            {
+                logs.Add("Exception on decryption: " + e);
+                return logs;
+            }
+
+            logs.AddRange(files.Select(f => DecryptFile(f, outDir, key)));
+
+            return logs;
         }
 
         
