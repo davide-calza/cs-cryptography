@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{B6190606-E938-45AA-B30B-504A23B9493F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesEnDecrypter", "App\FilesEnDecrypter.csproj", "{B6190606-E938-45AA-B30B-504A23B9493F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
