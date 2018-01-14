@@ -77,10 +77,11 @@ namespace App
 
         private void verifyMD5ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var file = FileManager.OpenFile(ofd, "Select file to calculate the MD5 of", false).ElementAt(0);
-            if (file == null) return;
+            var list = FileManager.OpenFile(ofd, "Select file to calculate the MD5 of", true);
+            if (list == null) return;
             
-            WriteLogs(ClassAcm.Md5FileString(file));
+            foreach (var l in ClassAcm.VerifyMd5List(list))
+                WriteLogs(l);
         }
     }    
 }

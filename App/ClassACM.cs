@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using FilesEnDecrypter;
 
@@ -70,6 +71,16 @@ namespace App
         }
         
         /// <summary>
+        /// Calculate MD5 of a list of files
+        /// </summary>
+        /// <param name="files">Files to calculate the MD5 of</param>
+        /// <returns>logs</returns>
+        public static IEnumerable<string> VerifyMd5List(IEnumerable<string> files)
+        {
+            return files.Select(Md5FileString).ToList();
+        }
+        
+        /// <summary>
         /// Encrypt a file in ACM format (Algoritmo Crittografico Marconi)
         /// </summary>
         /// <param name="fileName">Path of the file to encrypt</param>
@@ -113,7 +124,7 @@ namespace App
                 //Write on file (fOut)
                 File.WriteAllText(fOut, sb.ToString());
 
-                return "File successfully encrypted: " + fOut;
+                return "File successfully encrypted: " + fOut + "\nMD5 = " + sMd5;
             }
 
             catch (Exception e)
@@ -166,7 +177,7 @@ namespace App
                 if (sMd5 != sFile.ElementAt(2).Split('=')[1])
                     throw new Exception("MD5 hash functions not corresponding");
 
-                return "File successfully decrypted: " + fOut;;
+                return "File successfully decrypted: " + fOut;
             }
             catch (Exception e)
             {
