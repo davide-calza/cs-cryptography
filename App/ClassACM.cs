@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using FilesEnDecrypter;
 
-namespace FilesEnDecrypter
+namespace App
 {
-    static class ClassACM
+    internal static class ClassAcm
     {
         /// <summary>
         /// Encrypt a list of files

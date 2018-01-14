@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+using FilesEnDecrypter;
 using MaterialSkin;
 using MaterialSkin.Controls;
 
-namespace FilesEnDecrypter
+namespace App
 {
     public partial class App : MaterialForm
     {
@@ -54,42 +48,39 @@ namespace FilesEnDecrypter
 
         private void WriteLogs(string text)
         {
-            var time = DateTime.Now;
-            txtLogs.AppendText(DateTime.Now.ToString("HH:mm:ss") + " ~ " + text + '\n');
-        }
-
-        private static IEnumerable<string> OpenFile(OpenFileDialog ofd, string title, bool multiSelection)
-        {
-            ofd.Multiselect = multiSelection;
-            ofd.Title = title;
-            ofd.InitialDirectory = "./";
-            return ofd.ShowDialog() == DialogResult.OK ? ofd.FileNames.ToList() : null;
+            txtLogs.AppendText(DateTime.Now.ToString("HH:mm:ss") + " ~ " + text + "\n");
         }
 
         private void encryptFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var list = OpenFile(ofd, "Select files to encrypt", true);
+            var list = FileManager.OpenFile(ofd, "Select files to encrypt", true);
             if (list == null) return;
+
+            var outDir = FileManager.SaveFile(ffd);
+            if (outDir == null) return;
             
-            foreach (var l in ClassACM.EncryptFileList(list, "./output", "stufa"))
+            foreach (var l in ClassAcm.EncryptFileList(list, outDir, "stufa"))
                 WriteLogs(l);
         }
 
         private void decryptFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var list = OpenFile(ofd, "Select files to decrypt", true);
+            var list = FileManager.OpenFile(ofd, "Select files to decrypt", true);
             if (list == null) return;
 
-            foreach (var l in ClassACM.DecryptFileList(list, "./output", "stufa"))
+            var outDir = FileManager.SaveFile(ffd);
+            if (outDir == null) return;
+
+            foreach (var l in ClassAcm.DecryptFileList(list, outDir, "stufa"))
                 WriteLogs(l);
         }
 
         private void verifyMD5ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var file = OpenFile(ofd, "Select file to calculate the MD5 of", false).ElementAt(0);
+            var file = FileManager.OpenFile(ofd, "Select file to calculate the MD5 of", false).ElementAt(0);
             if (file == null) return;
             
-            WriteLogs(ClassACM.Md5FileString(file));
+            WriteLogs(ClassAcm.Md5FileString(file));
         }
     }    
 }

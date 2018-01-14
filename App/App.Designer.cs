@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace FilesEnDecrypter
+﻿namespace App
 {
     partial class App
     {
@@ -38,14 +36,17 @@ namespace FilesEnDecrypter
             this.menu = new System.Windows.Forms.MenuStrip();
             this.ofd = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.ffd = new System.Windows.Forms.FolderBrowserDialog();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtLogs
             // 
             this.txtLogs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(50)))), ((int)(((byte)(56)))));
+            this.txtLogs.Cursor = System.Windows.Forms.Cursors.Default;
             this.txtLogs.Font = new System.Drawing.Font("Segoe UI", 13F);
             this.txtLogs.ForeColor = System.Drawing.Color.White;
+            this.txtLogs.HideSelection = false;
             this.txtLogs.Location = new System.Drawing.Point(0, 64);
             this.txtLogs.Multiline = true;
             this.txtLogs.Name = "txtLogs";
@@ -131,5 +132,6 @@ namespace FilesEnDecrypter
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.OpenFileDialog ofd;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.FolderBrowserDialog ffd;
     }
 }

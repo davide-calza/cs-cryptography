@@ -1,11 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FilesEnDecrypter
+namespace App
 {
-    static class CryptoUtils
+    internal static class CryptoUtils
     {
 
         // https://msdn.microsoft.com/it-it/library/system.security.cryptography.symmetricalgorithm(v=vs.110).aspx

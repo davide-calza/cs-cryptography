@@ -16,7 +16,7 @@ namespace FilesEnDecrypter
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new App());
+            Application.Run(new App.App());
         }
     }
 }
