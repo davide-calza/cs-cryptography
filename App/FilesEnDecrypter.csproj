@@ -58,11 +58,22 @@
     <Compile Include="ClassACM.cs" />
     <Compile Include="CryptoUtils.cs" />
     <Compile Include="FileManager.cs" />
+    <Compile Include="GetKey.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetKey.Designer.cs">
+      <DependentUpon>GetKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <EmbeddedResource Include="App.resx">
       <DependentUpon>App.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <EmbeddedResource Include="GetKey.resx">
+      <DependentUpon>GetKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

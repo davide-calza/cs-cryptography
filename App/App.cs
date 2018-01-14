@@ -57,7 +57,10 @@ namespace App
             var outDir = FileManager.SaveFile(ffd);
             if (outDir == null) return;
             
-            foreach (var l in ClassAcm.EncryptFileList(list, outDir, "stufa"))
+            var key = GetKey();
+            if (string.IsNullOrEmpty(key)) return;
+            
+            foreach (var l in ClassAcm.EncryptFileList(list, outDir, key))
                 WriteLogs(l + "\r\n");
         }
 
@@ -69,7 +72,10 @@ namespace App
             var outDir = FileManager.SaveFile(ffd);
             if (outDir == null) return;
 
-            foreach (var l in ClassAcm.DecryptFileList(list, outDir, "stufa"))
+            var key = GetKey();
+            if (string.IsNullOrEmpty(key)) return;
+
+            foreach (var l in ClassAcm.DecryptFileList(list, outDir, key))
                 WriteLogs(l + "\r\n");
         }
 
@@ -78,7 +84,10 @@ namespace App
             var list = FileManager.OpenFile(ofd, "Select .acm file to calculate the MD5 of", true);
             if (list == null) return;
             
-            foreach (var l in ClassAcm.VerifyAcmMd5List(list, "stufa"))
+            var key = GetKey();
+            if (string.IsNullOrEmpty(key)) return;
+            
+            foreach (var l in ClassAcm.VerifyAcmMd5List(list, key))
                 WriteLogs(l + "\r\n");
         }
 
@@ -89,6 +98,16 @@ namespace App
 
             foreach (var l in ClassAcm.CalculateTxtMd5List(list))
                 WriteLogs(l + "\r\n");
+        }
+
+        private static string GetKey()
+        {
+            var keyForm = new GetKey();
+            keyForm.ShowDialog();
+            if (string.IsNullOrEmpty(keyForm.Key)) return null;
+            var key = keyForm.Key;
+            keyForm.Key = null;
+            return key;
         }
     }    
 }
