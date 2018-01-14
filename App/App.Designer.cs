@@ -30,66 +30,21 @@ namespace FilesEnDecrypter
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn_encrypt = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.btn_decrypt = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.btn_md5 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.txtLogs = new System.Windows.Forms.TextBox();
+            this.actionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.encryptFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.decryptFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.verifyMD5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menu = new System.Windows.Forms.MenuStrip();
+            this.menu.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btn_encrypt
-            // 
-            this.btn_encrypt.AutoSize = true;
-            this.btn_encrypt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_encrypt.Depth = 0;
-            this.btn_encrypt.Icon = null;
-            this.btn_encrypt.Location = new System.Drawing.Point(22, 79);
-            this.btn_encrypt.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_encrypt.Name = "btn_encrypt";
-            this.btn_encrypt.Primary = true;
-            this.btn_encrypt.Size = new System.Drawing.Size(81, 36);
-            this.btn_encrypt.TabIndex = 1;
-            this.btn_encrypt.Text = "Encrypt";
-            this.btn_encrypt.UseVisualStyleBackColor = true;
-            this.btn_encrypt.Click += new System.EventHandler(this.btn_encrypt_Click);
-            // 
-            // btn_decrypt
-            // 
-            this.btn_decrypt.AutoSize = true;
-            this.btn_decrypt.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_decrypt.Depth = 0;
-            this.btn_decrypt.Icon = null;
-            this.btn_decrypt.Location = new System.Drawing.Point(22, 121);
-            this.btn_decrypt.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_decrypt.Name = "btn_decrypt";
-            this.btn_decrypt.Primary = true;
-            this.btn_decrypt.Size = new System.Drawing.Size(81, 36);
-            this.btn_decrypt.TabIndex = 2;
-            this.btn_decrypt.Text = "Decrypt";
-            this.btn_decrypt.UseVisualStyleBackColor = true;
-            this.btn_decrypt.Click += new System.EventHandler(this.btn_decrypt_Click);
-            // 
-            // btn_md5
-            // 
-            this.btn_md5.AutoSize = true;
-            this.btn_md5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btn_md5.Depth = 0;
-            this.btn_md5.Icon = null;
-            this.btn_md5.Location = new System.Drawing.Point(22, 163);
-            this.btn_md5.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btn_md5.Name = "btn_md5";
-            this.btn_md5.Primary = true;
-            this.btn_md5.Size = new System.Drawing.Size(98, 36);
-            this.btn_md5.TabIndex = 3;
-            this.btn_md5.Text = "verify MD5";
-            this.btn_md5.UseVisualStyleBackColor = true;
-            this.btn_md5.Click += new System.EventHandler(this.btn_md5_Click);
             // 
             // txtLogs
             // 
             this.txtLogs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(50)))), ((int)(((byte)(56)))));
             this.txtLogs.Font = new System.Drawing.Font("Segoe UI", 13F);
             this.txtLogs.ForeColor = System.Drawing.Color.White;
-            this.txtLogs.Location = new System.Drawing.Point(22, 234);
+            this.txtLogs.Location = new System.Drawing.Point(0, 64);
             this.txtLogs.Multiline = true;
             this.txtLogs.Name = "txtLogs";
             this.txtLogs.ReadOnly = true;
@@ -97,26 +52,75 @@ namespace FilesEnDecrypter
             this.txtLogs.Size = new System.Drawing.Size(546, 241);
             this.txtLogs.TabIndex = 4;
             // 
+            // actionsToolStripMenuItem
+            // 
+            this.actionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.encryptFilesToolStripMenuItem,
+            this.decryptFilesToolStripMenuItem,
+            this.verifyMD5ToolStripMenuItem});
+            this.actionsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.actionsToolStripMenuItem.Name = "actionsToolStripMenuItem";
+            this.actionsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.actionsToolStripMenuItem.Text = "Actions";
+            // 
+            // encryptFilesToolStripMenuItem
+            // 
+            this.encryptFilesToolStripMenuItem.Name = "encryptFilesToolStripMenuItem";
+            this.encryptFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.encryptFilesToolStripMenuItem.Text = "Encrypt files";
+            this.encryptFilesToolStripMenuItem.Click += new System.EventHandler(this.encryptFilesToolStripMenuItem_Click);
+            // 
+            // decryptFilesToolStripMenuItem
+            // 
+            this.decryptFilesToolStripMenuItem.Name = "decryptFilesToolStripMenuItem";
+            this.decryptFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.decryptFilesToolStripMenuItem.Text = "Decrypt files";
+            this.decryptFilesToolStripMenuItem.Click += new System.EventHandler(this.decryptFilesToolStripMenuItem_Click);
+            // 
+            // verifyMD5ToolStripMenuItem
+            // 
+            this.verifyMD5ToolStripMenuItem.Name = "verifyMD5ToolStripMenuItem";
+            this.verifyMD5ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.verifyMD5ToolStripMenuItem.Text = "Calculate MD5";
+            this.verifyMD5ToolStripMenuItem.Click += new System.EventHandler(this.verifyMD5ToolStripMenuItem_Click);
+            // 
+            // menu
+            // 
+            this.menu.AutoSize = false;
+            this.menu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(50)))), ((int)(((byte)(56)))));
+            this.menu.Dock = System.Windows.Forms.DockStyle.None;
+            this.menu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.actionsToolStripMenuItem});
+            this.menu.Location = new System.Drawing.Point(0, 0);
+            this.menu.Name = "menu";
+            this.menu.Size = new System.Drawing.Size(150, 24);
+            this.menu.TabIndex = 5;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 487);
             this.Controls.Add(this.txtLogs);
-            this.Controls.Add(this.btn_md5);
-            this.Controls.Add(this.btn_decrypt);
-            this.Controls.Add(this.btn_encrypt);
+            this.Controls.Add(this.menu);
+            this.Location = new System.Drawing.Point(0, 64);
+            this.MainMenuStrip = this.menu;
             this.Name = "App";
             this.Text = "Files Encrypter/Decrypter";
+            this.menu.ResumeLayout(false);
+            this.menu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private MaterialSkin.Controls.MaterialRaisedButton btn_encrypt;
-        private MaterialSkin.Controls.MaterialRaisedButton btn_decrypt;
-        private MaterialSkin.Controls.MaterialRaisedButton btn_md5;
         private System.Windows.Forms.TextBox txtLogs;
+        private System.Windows.Forms.ToolStripMenuItem actionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem encryptFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem decryptFilesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem verifyMD5ToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip menu;
     }
 }

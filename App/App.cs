@@ -25,48 +25,58 @@ namespace FilesEnDecrypter
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
 
+            //menu
+            menu.ForeColor = Color.White;
+            menu.Dock = DockStyle.None;
+            menu.Location = new Point(0, 0);
+            menu.Renderer = new MyRenderer();
+
             //txtLogs
-            txtLogs.Location = new Point(0, 220);
+            txtLogs.Location = new Point(0, 64);
             txtLogs.BorderStyle = BorderStyle.None;
             txtLogs.Multiline = true;
             txtLogs.ScrollBars = ScrollBars.Vertical;
             txtLogs.Width = Width;
-            txtLogs.Height = Height - 220;
-
-            //buttons
-            btn_decrypt.AutoSize = false;
-            btn_encrypt.AutoSize = false;
-            btn_md5.AutoSize = false;
-            btn_encrypt.Width = Width/2;
-            btn_decrypt.Width = Width/2;
-            btn_md5.Width = Width/2;
+            txtLogs.Height = Height - 64;
         }
 
-        private void btn_encrypt_Click(object sender, EventArgs e)
+        internal class MyRenderer : ToolStripProfessionalRenderer
         {
-            var list = new List<string> {"test1.txt", "test2.txt", "test3.txt"};
-            
-            foreach (var l in ClassACM.EncryptFileList(list, "./output", "stufa"))
-                WriteLogs(l);
-        }
-
-        private void btn_decrypt_Click(object sender, EventArgs e)
-        {
-            var list = new List<string> {"./output/test1.acm", "./output/test2.acm", "./output/test3.acm"};
-            
-            foreach (var l in ClassACM.DecryptFileList(list, "./output", "stufa"))
-                WriteLogs(l);
-        }
-
-        private void btn_md5_Click(object sender, EventArgs e)
-        {
-            WriteLogs(ClassACM.Md5FileString("test.txt"));
+            protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+            {
+                Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);
+                Color c = e.Item.Selected ? Color.FromArgb(55,71,79) : Color.FromArgb(38, 50, 56);
+                using (SolidBrush brush = new SolidBrush(c))
+                    e.Graphics.FillRectangle(brush, rc);
+                e.Item.ForeColor = Color.White;
+            }
         }
 
         private void WriteLogs(string text)
         {
             var time = DateTime.Now;
-            txtLogs.AppendText(DateTime.Now.ToString("HH:mm:ss") +" ~ " + text + '\n');
+            txtLogs.AppendText(DateTime.Now.ToString("HH:mm:ss") + " ~ " + text + '\n');
         }
-    }
+
+        private void encryptFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var list = new List<string> { "test1.txt", "test2.txt", "test3.txt" };
+
+            foreach (var l in ClassACM.EncryptFileList(list, "./output", "stufa"))
+                WriteLogs(l);
+        }
+
+        private void decryptFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var list = new List<string> { "./output/test1.acm", "./output/test2.acm", "./output/test3.acm" };
+
+            foreach (var l in ClassACM.DecryptFileList(list, "./output", "stufa"))
+                WriteLogs(l);
+        }
+
+        private void verifyMD5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WriteLogs(ClassACM.Md5FileString("test.txt"));
+        }
+    }    
 }
