@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
-using System.Windows.Forms;
-using System.Xml.Xsl.Runtime;
-using FilesEnDecrypter;
 
 namespace App
 {
@@ -234,12 +230,11 @@ namespace App
                 return "Exception on MD5 calculation: " + e;
             }
         }
-        
+
         /// <summary>
         /// Calculate MD5 of the .acm input file
         /// </summary>
         /// <param name="fileName">Path of the file </param>
-        /// <param name="key">key of the file to decrypt</param>
         /// <returns>MD5 Hash</returns>
         /// <exception cref="Exception"></exception>
         private static string AcmMd5FileString(string fileName)

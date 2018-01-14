@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Configuration;
+using System.IO;
 
 namespace App
 {
@@ -20,8 +20,11 @@ namespace App
         {
             ofd.Multiselect = multiSelection;
             ofd.Title = title;
-            ofd.InitialDirectory = "./";
-            return ofd.ShowDialog() == DialogResult.OK ? ofd.FileNames.ToList() : null;
+            ofd.InitialDirectory = ConfigurationManager.AppSettings.Get("last_open_path");
+
+            if (ofd.ShowDialog() != DialogResult.OK) return null;
+            ConfigurationManager.AppSettings.Set("last_open_path", Path.GetDirectoryName(ofd.FileName));
+            return ofd.FileNames.ToList();
         }
 
         /// <summary>
@@ -32,7 +35,11 @@ namespace App
         public static string SaveFile(FolderBrowserDialog fbd)
         {
             fbd.Description = "Select output directory";
-            return fbd.ShowDialog() == DialogResult.OK ? fbd.SelectedPath : null;
+            fbd.SelectedPath = ConfigurationManager.AppSettings.Get("last_save_path");
+            
+            if (fbd.ShowDialog() != DialogResult.OK) return null;
+            ConfigurationManager.AppSettings.Set("last_save_path", Path.GetDirectoryName(fbd.SelectedPath));
+            return fbd.SelectedPath;
         }
     }
 }
