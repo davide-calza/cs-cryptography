@@ -33,9 +33,9 @@
             this.encryptFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decryptFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verifyMD5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.calculateTxtMD5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.ofd = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ffd = new System.Windows.Forms.FolderBrowserDialog();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +60,8 @@
             this.actionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.encryptFilesToolStripMenuItem,
             this.decryptFilesToolStripMenuItem,
-            this.verifyMD5ToolStripMenuItem});
+            this.verifyMD5ToolStripMenuItem,
+            this.calculateTxtMD5ToolStripMenuItem});
             this.actionsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.actionsToolStripMenuItem.Name = "actionsToolStripMenuItem";
             this.actionsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
@@ -69,23 +70,30 @@
             // encryptFilesToolStripMenuItem
             // 
             this.encryptFilesToolStripMenuItem.Name = "encryptFilesToolStripMenuItem";
-            this.encryptFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.encryptFilesToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.encryptFilesToolStripMenuItem.Text = "Encrypt files";
             this.encryptFilesToolStripMenuItem.Click += new System.EventHandler(this.encryptFilesToolStripMenuItem_Click);
             // 
             // decryptFilesToolStripMenuItem
             // 
             this.decryptFilesToolStripMenuItem.Name = "decryptFilesToolStripMenuItem";
-            this.decryptFilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.decryptFilesToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.decryptFilesToolStripMenuItem.Text = "Decrypt files";
             this.decryptFilesToolStripMenuItem.Click += new System.EventHandler(this.decryptFilesToolStripMenuItem_Click);
             // 
             // verifyMD5ToolStripMenuItem
             // 
             this.verifyMD5ToolStripMenuItem.Name = "verifyMD5ToolStripMenuItem";
-            this.verifyMD5ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.verifyMD5ToolStripMenuItem.Text = "Calculate MD5";
+            this.verifyMD5ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.verifyMD5ToolStripMenuItem.Text = "Verify acm MD5";
             this.verifyMD5ToolStripMenuItem.Click += new System.EventHandler(this.verifyMD5ToolStripMenuItem_Click);
+            // 
+            // calculateTxtMD5ToolStripMenuItem
+            // 
+            this.calculateTxtMD5ToolStripMenuItem.Name = "calculateTxtMD5ToolStripMenuItem";
+            this.calculateTxtMD5ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.calculateTxtMD5ToolStripMenuItem.Text = "Calculate txt MD5";
+            this.calculateTxtMD5ToolStripMenuItem.Click += new System.EventHandler(this.calculateTxtMD5ToolStripMenuItem_Click);
             // 
             // menu
             // 
@@ -131,7 +139,7 @@
         private System.Windows.Forms.ToolStripMenuItem verifyMD5ToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.OpenFileDialog ofd;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.FolderBrowserDialog ffd;
+        private System.Windows.Forms.ToolStripMenuItem calculateTxtMD5ToolStripMenuItem;
     }
 }

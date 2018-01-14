@@ -48,7 +48,7 @@ namespace App
 
         private void WriteLogs(string text)
         {
-            txtLogs.AppendText(DateTime.Now.ToString("HH:mm:ss") + " ~ " + text + "\n");
+            txtLogs.AppendText(DateTime.Now.ToString("HH:mm:ss") + " ~ " + text + "\r\n");
         }
 
         private void encryptFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -60,7 +60,7 @@ namespace App
             if (outDir == null) return;
             
             foreach (var l in ClassAcm.EncryptFileList(list, outDir, "stufa"))
-                WriteLogs(l);
+                WriteLogs(l + "\r\n");
         }
 
         private void decryptFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,16 +72,25 @@ namespace App
             if (outDir == null) return;
 
             foreach (var l in ClassAcm.DecryptFileList(list, outDir, "stufa"))
-                WriteLogs(l);
+                WriteLogs(l + "\r\n");
         }
 
         private void verifyMD5ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var list = FileManager.OpenFile(ofd, "Select file to calculate the MD5 of", true);
+            var list = FileManager.OpenFile(ofd, "Select .acm file to calculate the MD5 of", true);
             if (list == null) return;
             
-            foreach (var l in ClassAcm.VerifyMd5List(list))
-                WriteLogs(l);
+            foreach (var l in ClassAcm.VerifyAcmMd5List(list, "stufa"))
+                WriteLogs(l + "\r\n");
+        }
+
+        private void calculateTxtMD5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var list = FileManager.OpenFile(ofd, "Select .txt file to calculate the MD5 of", true);
+            if (list == null) return;
+
+            foreach (var l in ClassAcm.CalculateTxtMd5List(list))
+                WriteLogs(l + "\r\n");
         }
     }    
 }
