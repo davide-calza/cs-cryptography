@@ -36,6 +36,8 @@ namespace FilesEnDecrypter
             this.decryptFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verifyMD5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new System.Windows.Forms.MenuStrip();
+            this.ofd = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,6 +99,11 @@ namespace FilesEnDecrypter
             this.menu.Size = new System.Drawing.Size(150, 24);
             this.menu.TabIndex = 5;
             // 
+            // ofd
+            // 
+            this.ofd.FileName = "ofd";
+            this.ofd.Multiselect = true;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -122,5 +129,7 @@ namespace FilesEnDecrypter
         private System.Windows.Forms.ToolStripMenuItem decryptFilesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verifyMD5ToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menu;
+        private System.Windows.Forms.OpenFileDialog ofd;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

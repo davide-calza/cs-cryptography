@@ -40,13 +40,13 @@ namespace FilesEnDecrypter
             txtLogs.Height = Height - 64;
         }
 
-        internal class MyRenderer : ToolStripProfessionalRenderer
+        private class MyRenderer : ToolStripProfessionalRenderer
         {
             protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
             {
-                Rectangle rc = new Rectangle(Point.Empty, e.Item.Size);
-                Color c = e.Item.Selected ? Color.FromArgb(55,71,79) : Color.FromArgb(38, 50, 56);
-                using (SolidBrush brush = new SolidBrush(c))
+                var rc = new Rectangle(Point.Empty, e.Item.Size);
+                var c = e.Item.Selected ? Color.FromArgb(55,71,79) : Color.FromArgb(38, 50, 56);
+                using (var brush = new SolidBrush(c))
                     e.Graphics.FillRectangle(brush, rc);
                 e.Item.ForeColor = Color.White;
             }
@@ -58,17 +58,27 @@ namespace FilesEnDecrypter
             txtLogs.AppendText(DateTime.Now.ToString("HH:mm:ss") + " ~ " + text + '\n');
         }
 
+        private static IEnumerable<string> OpenFile(OpenFileDialog ofd, string title, bool multiSelection)
+        {
+            ofd.Multiselect = multiSelection;
+            ofd.Title = title;
+            ofd.InitialDirectory = "./";
+            return ofd.ShowDialog() == DialogResult.OK ? ofd.FileNames.ToList() : null;
+        }
+
         private void encryptFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var list = new List<string> { "test1.txt", "test2.txt", "test3.txt" };
-
+            var list = OpenFile(ofd, "Select files to encrypt", true);
+            if (list == null) return;
+            
             foreach (var l in ClassACM.EncryptFileList(list, "./output", "stufa"))
                 WriteLogs(l);
         }
 
         private void decryptFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var list = new List<string> { "./output/test1.acm", "./output/test2.acm", "./output/test3.acm" };
+            var list = OpenFile(ofd, "Select files to decrypt", true);
+            if (list == null) return;
 
             foreach (var l in ClassACM.DecryptFileList(list, "./output", "stufa"))
                 WriteLogs(l);
@@ -76,7 +86,10 @@ namespace FilesEnDecrypter
 
         private void verifyMD5ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WriteLogs(ClassACM.Md5FileString("test.txt"));
+            var file = OpenFile(ofd, "Select file to calculate the MD5 of", false).ElementAt(0);
+            if (file == null) return;
+            
+            WriteLogs(ClassACM.Md5FileString(file));
         }
     }    
 }
