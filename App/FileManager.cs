@@ -7,7 +7,7 @@ using System.IO;
 
 namespace App
 {
-    public static class FileManager
+    internal class FileManager
     {
         /// <summary>
         /// Open an open file dialog and select files

@@ -55,8 +55,6 @@
     <Compile Include="App.Designer.cs">
       <DependentUpon>App.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClassACM.cs" />
-    <Compile Include="CryptoUtils.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="GetKey.cs">
       <SubType>Form</SubType>
@@ -75,6 +73,12 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cryptography\Cryptography.csproj">
+      <Project>{ad49e9a7-3871-4d54-94e2-325a9a2aa30c}</Project>
+      <Name>Cryptography</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

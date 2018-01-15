@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesEnDecrypter", "App\Fil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{44B74A88-D052-4D7F-9490-DEE56D8876EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptography", "Cryptography\Cryptography.csproj", "{AD49E9A7-3871-4D54-94E2-325A9A2AA30C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{44B74A88-D052-4D7F-9490-DEE56D8876EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44B74A88-D052-4D7F-9490-DEE56D8876EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44B74A88-D052-4D7F-9490-DEE56D8876EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD49E9A7-3871-4D54-94E2-325A9A2AA30C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD49E9A7-3871-4D54-94E2-325A9A2AA30C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD49E9A7-3871-4D54-94E2-325A9A2AA30C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD49E9A7-3871-4D54-94E2-325A9A2AA30C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
