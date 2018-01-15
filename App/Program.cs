@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FilesEnDecrypter
+namespace App
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace FilesEnDecrypter
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new App.App());
+            Application.Run(new App());
         }
     }
 }

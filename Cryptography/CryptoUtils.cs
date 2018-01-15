@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Security.Cryptography;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Security.Cryptography;
 
-namespace App
+namespace Cryptography
 {
-    internal static class CryptoUtils
+    public static class CryptoUtils
     {
 
         // https://msdn.microsoft.com/it-it/library/system.security.cryptography.symmetricalgorithm(v=vs.110).aspx

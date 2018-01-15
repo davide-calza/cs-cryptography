@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using System.Threading.Tasks;
+using System.IO;
 
-namespace App
+namespace Cryptography
 {
-    internal static class ClassAcm
+    public static class ClassAcm
     {
         /// <summary>
         /// Encrypt a list of files
@@ -20,7 +20,7 @@ namespace App
         public static IEnumerable<string> EncryptFileList(IEnumerable<string> files, string outDir, string key)
         {
             var logs = new List<string>();
-            
+
             try
             {
                 if (!Directory.Exists(outDir))
@@ -38,7 +38,7 @@ namespace App
 
             return logs;
         }
-        
+
         /// <summary>
         /// Decrypt a list of files
         /// </summary>
@@ -50,7 +50,7 @@ namespace App
         public static IEnumerable<string> DecryptFileList(IEnumerable<string> files, string outDir, string key)
         {
             var logs = new List<string>();
-            
+
             try
             {
                 if (!Directory.Exists(outDir))
@@ -79,7 +79,7 @@ namespace App
         {
             return files.Select(f => f + " = " + VerifyMd5AcmFile(f, key)).ToList();
         }
-        
+
         /// <summary>
         /// Calculate MD5 of a list of .txt files
         /// </summary>
@@ -89,7 +89,7 @@ namespace App
         {
             return files.Select(f => f + " = " + TxtMd5FileString(f)).ToList();
         }
-        
+
         /// <summary>
         /// Encrypt a file in ACM format (Algoritmo Crittografico Marconi)
         /// </summary>
@@ -109,16 +109,16 @@ namespace App
                 if (key == null | key == "")
                     throw new Exception("Null key");
                 if (Path.GetExtension(fileName) != ".txt")
-                    throw  new Exception("Wrong file format. This function can encrypt only .txt files");
-                
+                    throw new Exception("Wrong file format. This function can encrypt only .txt files");
+
                 var fInp = Path.GetFileName(fileName); //input unencrypted file
                 var fOut = Path.ChangeExtension(outDir + "/" + fInp, "acm"); //output encrypted file
-                
+
                 var sFile = File.ReadAllText(fileName); //text of the file
-                
+
                 if (sFile == "")
                     throw new Exception("Empty file");
-                
+
                 var sMd5 = TxtMd5FileString(fileName); //Md5 of the text
                 var sAcm = CryptoUtils.EncryptAES(sFile, key); //encrypted text
 
@@ -163,13 +163,13 @@ namespace App
                 if (key == null | key == "")
                     throw new Exception("Null key");
                 if (Path.GetExtension(fileName) != ".acm")
-                    throw  new Exception("Wrong file format. This function can decrypt only .acm files");
-                
+                    throw new Exception("Wrong file format. This function can decrypt only .acm files");
+
                 var fInp = Path.GetFileNameWithoutExtension(fileName); //input encrypted file
                 var fOut = outDir + "/" + fInp + "_dec.txt"; //output unencrypted file
 
                 var sFile = File.ReadLines(fileName).ToList(); //encrypted text
-                
+
                 if (sFile.Count == 0)
                     throw new Exception("Empty file");
 
@@ -209,21 +209,21 @@ namespace App
         {
             try
             {
-                if(!File.Exists(fileName))
-                    throw  new Exception("File not found");
+                if (!File.Exists(fileName))
+                    throw new Exception("File not found");
                 if (Path.GetExtension(fileName) != ".txt")
-                    throw  new Exception("Wrong file format. This function can encrypt only .txt files");
+                    throw new Exception("Wrong file format. This function can encrypt only .txt files");
 
                 var sFile = File.ReadAllText(fileName); //text
-                
+
                 if (sFile == "")
                     throw new Exception("Empty file");
-                
+
                 var md5 = CryptoUtils.HashMD5(sFile);
-                
+
                 if (md5 == null)
                     throw new Exception("Error on MD5 calculation");
-                
+
                 return md5;
             }
             catch (Exception e)
@@ -242,21 +242,21 @@ namespace App
         {
             try
             {
-                if(!File.Exists(fileName))
-                    throw  new Exception("File not found");
+                if (!File.Exists(fileName))
+                    throw new Exception("File not found");
                 if (Path.GetExtension(fileName) != ".acm")
-                    throw  new Exception("Wrong file format. This function can encrypt only .acm files");
+                    throw new Exception("Wrong file format. This function can encrypt only .acm files");
 
                 var sFile = File.ReadAllLines(fileName).ToList(); //text
-                
+
                 if (sFile.Count == 0)
                     throw new Exception("Empty file");
-                
+
                 var md5 = sFile.ElementAt(2).Split('=')[1];
-                
+
                 if (md5 == null)
                     throw new Exception("Error on MD5 calculation");
-                
+
                 return md5;
             }
             catch (Exception e)
@@ -276,20 +276,20 @@ namespace App
         {
             try
             {
-                if(!File.Exists(fileName))
-                    throw  new Exception("File not found");
+                if (!File.Exists(fileName))
+                    throw new Exception("File not found");
                 if (Path.GetExtension(fileName) != ".acm")
-                    throw  new Exception("Wrong file format. This function can encrypt only .acm files");
+                    throw new Exception("Wrong file format. This function can encrypt only .acm files");
 
                 var sFile = File.ReadAllLines(fileName).ToList(); //text
-                
+
                 if (sFile.Count == 0)
                     throw new Exception("Empty file");
 
                 var plainMd5 = AcmMd5FileString(fileName);
                 var calcMd5 = CryptoUtils.HashMD5(CryptoUtils.DecryptAES(sFile.ElementAt(6), key));
-                
-                if(plainMd5 != calcMd5)
+
+                if (plainMd5 != calcMd5)
                     throw new Exception("Md5 not coincident!");
 
                 return plainMd5 + " successfully verified";
@@ -301,4 +301,3 @@ namespace App
         }
     }
 }
-
