@@ -21,7 +21,7 @@ namespace UnitTest
             var text = ConfigurationManager.AppSettings.Get("txt_file_text");
             var md5 = ConfigurationManager.AppSettings.Get("txt_file_md5");
 
-            var list = new List<string>() { dir + "/test1.txt", dir + "/test2.txt", dir + "./test3.txt" };
+            var list = new List<string>() { dir + "/test1.txt", dir + "/test2.txt", dir + "/test3.txt" };
             var sol = new List<string>() { list.ElementAt(0) + " = " + md5, list.ElementAt(1) + " = " + md5, list.ElementAt(2) + " = " + md5 };
 
             if (Directory.Exists(dir))
@@ -39,6 +39,13 @@ namespace UnitTest
                     File.Create(l);
                     File.AppendText(text);
                 }
+            }
+
+            var testList = ClassAcm.CalculateTxtMd5List(list);
+
+            foreach (var l in testList)
+            {
+                MessageBox.Show(l.ToString());
             }
 
             Assert.AreEqual(ClassAcm.CalculateTxtMd5List(list), sol); 
