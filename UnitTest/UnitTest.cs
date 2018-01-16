@@ -41,6 +41,9 @@ namespace UnitTest
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, dir, "").ToList().ElementAt(0), "Exception on encryption: Null key");
             File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx"));
             Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {Path.ChangeExtension(testList.ElementAt(0), ".docx")}, dir, key).ToList().ElementAt(0), "Exception on encryption: Wrong file format. This function can encrypt only .txt files");
+            File.Create(dir + "/empty.txt").Close();
+            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() { dir+"/empty.txt" }, dir, key).ToList().ElementAt(0), "Exception on encryption: Empty file");
+
         }
 
         [TestMethod] 
