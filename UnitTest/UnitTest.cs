@@ -97,6 +97,7 @@ namespace UnitTest
         [TestMethod]
         public void TestCalculateMd5TxtList()
         {
+            var dir = ConfigurationManager.AppSettings.Get("test_dir");
             var md5_1 = ConfigurationManager.AppSettings.Get("txt_file_md5_1").ToUpper();
             var md5_2 = ConfigurationManager.AppSettings.Get("txt_file_md5_2").ToUpper();
             var md5_3 = ConfigurationManager.AppSettings.Get("txt_file_md5_3").ToUpper();
@@ -107,7 +108,14 @@ namespace UnitTest
                 testList.ElementAt(1) + " = " + md5_2,
                 testList.ElementAt(2) + " = " + md5_3
             };
+            //OK
             CollectionAssert.AreEqual(ClassAcm.CalculateTxtMd5List(testList).ToList(), sol);
+            //Exceptions
+            Assert.AreEqual(ClassAcm.CalculateTxtMd5List(new List<string>() { "./umpalumpa.txt" }).ToList().ElementAt(0), "./umpalumpa.txt = Exception on MD5 calculation: File not found");
+            File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx")).Close();
+            Assert.AreEqual(ClassAcm.CalculateTxtMd5List(new List<string>() { Path.ChangeExtension(testList.ElementAt(0), ".docx") }).ToList().ElementAt(0), Path.ChangeExtension(testList.ElementAt(0), ".docx") + " = Exception on MD5 calculation: Wrong file format. This function can encrypt only .txt files");
+            File.Create(dir + "/empty.txt").Close();
+            Assert.AreEqual(ClassAcm.CalculateTxtMd5List(new List<string>() { dir + "/empty.txt" }).ToList().ElementAt(0), dir + "/empty.txt" + " = Exception on MD5 calculation: Empty file");
         }
 
         private static IEnumerable<string> GenerateTxtFilesList()

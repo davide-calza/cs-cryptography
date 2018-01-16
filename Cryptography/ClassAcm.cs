@@ -181,35 +181,37 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Calculate MD5 of the .txt input file
+        /// Verify MD5 of the .acm input file
         /// </summary>
         /// <param name="fileName">Path of the file </param>
+        /// <param name="key">Symmetric key</param>
         /// <returns>MD5 Hash</returns>
         /// <exception cref="Exception"></exception>
-        private static string TxtMd5FileString(string fileName)
+        private static string VerifyMd5AcmFile(string fileName, string key)
         {
             try
             {
                 if (!File.Exists(fileName))
                     throw new Exception("File not found");
-                if (Path.GetExtension(fileName) != ".txt")
-                    throw new Exception("Wrong file format. This function can encrypt only .txt files");
+                if (Path.GetExtension(fileName) != ".acm")
+                    throw new Exception("Wrong file format. This function can encrypt only .acm files");
 
-                var sFile = File.ReadAllText(fileName); //text
+                var sFile = File.ReadAllLines(fileName).ToList(); //text
 
-                if (sFile == "")
+                if (sFile.Count == 0)
                     throw new Exception("Empty file");
 
-                var md5 = CryptoUtils.HashMD5(sFile);
+                var plainMd5 = AcmMd5FileString(fileName);
+                var calcMd5 = CryptoUtils.HashMD5(CryptoUtils.DecryptAES(sFile.ElementAt(6), key));
 
-                if (md5 == null)
-                    throw new Exception("Error on MD5 calculation");
+                if (plainMd5 != calcMd5)
+                    throw new Exception("Md5 not coincident!");
 
-                return md5;
+                return plainMd5 + " successfully verified";
             }
             catch (Exception e)
             {
-                return "Exception on MD5 calculation: " + e;
+                return "Exception on MD5 verify: " + e;
             }
         }
 
@@ -247,38 +249,33 @@ namespace Cryptography
         }
 
         /// <summary>
-        /// Verify MD5 of the .acm input file
+        /// Calculate MD5 of the .txt input file
         /// </summary>
         /// <param name="fileName">Path of the file </param>
-        /// <param name="key">Symmetric key</param>
         /// <returns>MD5 Hash</returns>
         /// <exception cref="Exception"></exception>
-        private static string VerifyMd5AcmFile(string fileName, string key)
+        private static string TxtMd5FileString(string fileName)
         {
             try
             {
                 if (!File.Exists(fileName))
                     throw new Exception("File not found");
-                if (Path.GetExtension(fileName) != ".acm")
-                    throw new Exception("Wrong file format. This function can encrypt only .acm files");
+                if (Path.GetExtension(fileName) != ".txt")
+                    throw new Exception("Wrong file format. This function can encrypt only .txt files");
 
-                var sFile = File.ReadAllLines(fileName).ToList(); //text
+                var sFile = File.ReadAllText(fileName); //text
 
-                if (sFile.Count == 0)
+                if (sFile == "")
                     throw new Exception("Empty file");
 
-                var plainMd5 = AcmMd5FileString(fileName);
-                var calcMd5 = CryptoUtils.HashMD5(CryptoUtils.DecryptAES(sFile.ElementAt(6), key));
+                var md5 = CryptoUtils.HashMD5(sFile);
 
-                if (plainMd5 != calcMd5)
-                    throw new Exception("Md5 not coincident!");
-
-                return plainMd5 + " successfully verified";
+                return md5;
             }
             catch (Exception e)
             {
-                return "Exception on MD5 verify: " + e;
+                return "Exception on MD5 calculation: " + e.Message;
             }
-        }
+        }       
     }
 }
