@@ -5,14 +5,16 @@ using System.Linq;
 using Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Forms;
+using System;
 
 namespace UnitTest
 {
     [TestClass]
     public class UnitTestCryptography
     {
+        /********************ENCRYPT********************/
         [TestMethod]
-        public void TestEncryptFileList()
+        public void TestEncryptFileListOk()
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");
             var key = ConfigurationManager.AppSettings.Get("secret_key");
@@ -23,16 +25,20 @@ namespace UnitTest
             var file1 = Path.ChangeExtension(testList.ElementAt(0), "acm");
             var file2 = Path.ChangeExtension(testList.ElementAt(1), "acm");
             var file3 = Path.ChangeExtension(testList.ElementAt(2), "acm");
+
+            //OK return
             var sol = new List<string>()
             {
                 "File successfully encrypted: " + file1 + "\r\nMD5 = " + md5_1,
                 "File successfully encrypted: " + file2 + "\r\nMD5 = " + md5_2,
                 "File successfully encrypted: " + file3 + "\r\nMD5 = " + md5_3,
             };
-            CollectionAssert.AreEqual(ClassAcm.EncryptFileList(testList, dir, key).ToList(), sol);
+            CollectionAssert.AreEqual(ClassAcm.EncryptFileList(testList, dir, key).ToList(), sol);         
+            Assert.AreEqual(ClassAcm.EncryptFileList(testList, "./umpalumpa", key).ToList().ElementAt(0), "Exception on encryption: Directory not found");
+            Assert.AreEqual(ClassAcm.EncryptFileList(testList, dir, "").ToList().ElementAt(0), "Exception on encryption: Null key");
         }
 
-        [TestMethod]
+        [TestMethod] 
         public void TestDecryptFileList()
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");

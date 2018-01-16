@@ -25,12 +25,12 @@ namespace Cryptography
             {
                 if (!Directory.Exists(outDir))
                     throw new Exception("Directory not found");
-                if (key == null | key == "")
+                if (string.IsNullOrEmpty(key))
                     throw new Exception("Null key");
             }
             catch (Exception e)
             {
-                logs.Add("Exception on encryption: " + e);
+                logs.Add("Exception on encryption: " + e.Message);
                 return logs;
             }
 
@@ -55,7 +55,7 @@ namespace Cryptography
             {
                 if (!Directory.Exists(outDir))
                     throw new Exception("Directory not found");
-                if (key == null | key == "")
+                if (string.IsNullOrEmpty(key))
                     throw new Exception("Null key");
             }
             catch (Exception e)
@@ -106,7 +106,7 @@ namespace Cryptography
                     throw new Exception("File not found");
                 if (!Directory.Exists(outDir))
                     throw new Exception("Directory not found");
-                if (key == null | key == "")
+                if (string.IsNullOrEmpty(key))
                     throw new Exception("Null key");
                 if (Path.GetExtension(fileName) != ".txt")
                     throw new Exception("Wrong file format. This function can encrypt only .txt files");
@@ -160,7 +160,7 @@ namespace Cryptography
                     throw new Exception("File not found");
                 if (!Directory.Exists(outDir))
                     throw new Exception("Directory not found");
-                if (key == null | key == "")
+                if (string.IsNullOrEmpty(key))
                     throw new Exception("Null key");
                 if (Path.GetExtension(fileName) != ".acm")
                     throw new Exception("Wrong file format. This function can decrypt only .acm files");
