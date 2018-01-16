@@ -11,6 +11,28 @@ namespace UnitTest
     [TestClass]
     public class UnitTestCryptography
     {
+
+        [TestMethod]
+        public void TestEncryptFileList()
+        {
+            var dir = ConfigurationManager.AppSettings.Get("test_dir");
+            var key = ConfigurationManager.AppSettings.Get("secret_key");
+            var md5_1 = ConfigurationManager.AppSettings.Get("txt_file_md5_1").ToUpper();
+            var md5_2 = ConfigurationManager.AppSettings.Get("txt_file_md5_2").ToUpper();
+            var md5_3 = ConfigurationManager.AppSettings.Get("txt_file_md5_3").ToUpper();
+            var list = GenerateTxtFilesList();
+            var file_1 = Path.ChangeExtension(list.ElementAt(0), "acm");
+            var file_2 = Path.ChangeExtension(list.ElementAt(1), "acm");
+            var file_3 = Path.ChangeExtension(list.ElementAt(2), "acm");
+            var sol = new List<string>()
+            {
+                "File successfully encrypted: " + file_1 + "\r\nMD5 = " + md5_1,
+                "File successfully encrypted: " + file_2 + "\r\nMD5 = " + md5_2,
+                "File successfully encrypted: " + file_3 + "\r\nMD5 = " + md5_3,
+            };
+            CollectionAssert.AreEqual(ClassAcm.EncryptFileList(list, dir, key).ToList(), sol);
+        }
+
         [TestMethod]
         public void TestMd5TxtList()
         {
