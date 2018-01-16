@@ -12,43 +12,33 @@ using System.Configuration;
 namespace UnitTest
 {
     [TestClass]
-    public class UnitTestFileManager
+    public class UnitTestCryptography
     {
         [TestMethod]
         public void TestMd5TxtList()
         {                        
-            var dir = ConfigurationManager.AppSettings.Get("test_dir");  
-            var text = ConfigurationManager.AppSettings.Get("txt_file_text");
-            var md5 = ConfigurationManager.AppSettings.Get("txt_file_md5");
+            var dir = ConfigurationManager.AppSettings.Get("test_dir");            
+            var text_1 = ConfigurationManager.AppSettings.Get("txt_file_text_1");
+            var md5_1 = ConfigurationManager.AppSettings.Get("txt_file_md5_1").ToUpper();
 
             var list = new List<string>() { dir + "/test1.txt", dir + "/test2.txt", dir + "/test3.txt" };
-            var sol = new List<string>() { list.ElementAt(0) + " = " + md5, list.ElementAt(1) + " = " + md5, list.ElementAt(2) + " = " + md5 };
+            var sol = new List<string>() { list.ElementAt(0) + " = " + md5_1, list.ElementAt(1) + " = " + md5_1, list.ElementAt(2) + " = " + md5_1 };
 
-            if (Directory.Exists(dir))
-            {
-                Directory.Delete(dir);
-                Directory.CreateDirectory(dir);
-            }
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);                
 
             foreach (var l in list)
-            {                
-
+            {
                 if (File.Exists(l))
-                {
                     File.Delete(l);
-                    File.Create(l);
-                    File.AppendText(text);
+                using (StreamWriter sw = new StreamWriter(l, true))
+                {
+                    sw.WriteLine(text_1);
+                    sw.Close();
                 }
             }
 
-            var testList = ClassAcm.CalculateTxtMd5List(list);
-
-            foreach (var l in testList)
-            {
-                MessageBox.Show(l.ToString());
-            }
-
-            Assert.AreEqual(ClassAcm.CalculateTxtMd5List(list), sol); 
+            CollectionAssert.AreEqual(ClassAcm.CalculateTxtMd5List(list).ToList(), sol); 
         }
     }
 }
