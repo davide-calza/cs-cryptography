@@ -60,7 +60,7 @@ namespace Cryptography
             }
             catch (Exception e)
             {
-                logs.Add("Exception on decryption: " + e);
+                logs.Add("Exception on decryption: " + e.Message);
                 return logs;
             }
 

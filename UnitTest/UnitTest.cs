@@ -54,6 +54,8 @@ namespace UnitTest
                 "_dec.txt"
             };
             CollectionAssert.AreEqual(ClassAcm.DecryptFileList(testList, dir, key).ToList(), sol);
+            Assert.AreEqual(ClassAcm.DecryptFileList(testList, "./umpalumpa", key).ToList().ElementAt(0), "Exception on decryption: Directory not found");
+            Assert.AreEqual(ClassAcm.DecryptFileList(testList, dir, "").ToList().ElementAt(0), "Exception on decryption: Null key");
         }
 
         [TestMethod]
