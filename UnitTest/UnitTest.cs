@@ -37,9 +37,6 @@ namespace UnitTest
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");
             var key = ConfigurationManager.AppSettings.Get("secret_key");
-            var md5_1 = ConfigurationManager.AppSettings.Get("txt_file_md5_1").ToUpper();
-            var md5_2 = ConfigurationManager.AppSettings.Get("txt_file_md5_2").ToUpper();
-            var md5_3 = ConfigurationManager.AppSettings.Get("txt_file_md5_3").ToUpper();
             var testList = GenerateAcmFilesList().ToList();
             var sol = new List<string>()
             {
@@ -54,7 +51,24 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void TestMd5TxtList()
+        public void TestVerifyMd5AcmList()
+        {
+            var key = ConfigurationManager.AppSettings.Get("secret_key");
+            var md5_1 = ConfigurationManager.AppSettings.Get("txt_file_md5_1").ToUpper();
+            var md5_2 = ConfigurationManager.AppSettings.Get("txt_file_md5_2").ToUpper();
+            var md5_3 = ConfigurationManager.AppSettings.Get("txt_file_md5_3").ToUpper();
+            var testList = GenerateAcmFilesList().ToList();
+            var sol = new List<string>()
+            {
+                testList.ElementAt(0) + " = " + md5_1 + " successfully verified",
+                testList.ElementAt(1) + " = " + md5_2 + " successfully verified",
+                testList.ElementAt(2) + " = " + md5_3 + " successfully verified"
+            };
+            CollectionAssert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, key).ToList(), sol);
+        }
+
+        [TestMethod]
+        public void TestCalculateMd5TxtList()
         {
             var md5_1 = ConfigurationManager.AppSettings.Get("txt_file_md5_1").ToUpper();
             var md5_2 = ConfigurationManager.AppSettings.Get("txt_file_md5_2").ToUpper();
