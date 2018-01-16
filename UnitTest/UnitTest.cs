@@ -33,9 +33,14 @@ namespace UnitTest
                 "File successfully encrypted: " + file2 + "\r\nMD5 = " + md5_2,
                 "File successfully encrypted: " + file3 + "\r\nMD5 = " + md5_3,
             };
-            CollectionAssert.AreEqual(ClassAcm.EncryptFileList(testList, dir, key).ToList(), sol);         
+            //OK
+            CollectionAssert.AreEqual(ClassAcm.EncryptFileList(testList, dir, key).ToList(), sol);
+            //Exceptions
+            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {"./umpalumpa.txt"}, dir, key).ToList().ElementAt(0), "Exception on encryption: File not found");
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, "./umpalumpa", key).ToList().ElementAt(0), "Exception on encryption: Directory not found");
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, dir, "").ToList().ElementAt(0), "Exception on encryption: Null key");
+            File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx"));
+            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {Path.ChangeExtension(testList.ElementAt(0), ".docx")}, dir, key).ToList().ElementAt(0), "Exception on encryption: Wrong file format. This function can encrypt only .txt files");
         }
 
         [TestMethod] 
@@ -73,6 +78,7 @@ namespace UnitTest
                 testList.ElementAt(2) + " = " + md5_3 + " successfully verified"
             };
             CollectionAssert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, key).ToList(), sol);
+            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, "").ToList().ElementAt(0), "Exception on MD5 verification: Null key");
         }
 
         [TestMethod]

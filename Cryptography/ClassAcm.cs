@@ -19,24 +19,7 @@ namespace Cryptography
         /// <exception cref="Exception"></exception>
         public static IEnumerable<string> EncryptFileList(IEnumerable<string> files, string outDir, string key)
         {
-            var logs = new List<string>();
-
-            try
-            {
-                if (!Directory.Exists(outDir))
-                    throw new Exception("Directory not found");
-                if (string.IsNullOrEmpty(key))
-                    throw new Exception("Null key");
-            }
-            catch (Exception e)
-            {
-                logs.Add("Exception on encryption: " + e.Message);
-                return logs;
-            }
-
-            logs.AddRange(files.Select(f => EncryptFile(f, outDir, key)));
-
-            return logs;
+            return files.Select(f => EncryptFile(f, outDir, key));
         }
 
         /// <summary>
@@ -77,7 +60,22 @@ namespace Cryptography
         /// <returns>logs</returns>
         public static IEnumerable<string> VerifyAcmMd5List(IEnumerable<string> files, string key)
         {
-            return files.Select(f => f + " = " + VerifyMd5AcmFile(f, key)).ToList();
+            var logs = new List<string>();
+
+            try
+            { 
+                if (string.IsNullOrEmpty(key))
+                    throw new Exception("Null key");
+            }
+            catch (Exception e)
+            {
+                logs.Add("Exception on MD5 verification: " + e.Message);
+                return logs;
+            }
+
+            logs = files.Select(f => f + " = " + VerifyMd5AcmFile(f, key)).ToList();
+
+            return logs;
         }
 
         /// <summary>
@@ -141,7 +139,7 @@ namespace Cryptography
 
             catch (Exception e)
             {
-                return "Exception on encryption: " + e;
+                return "Exception on encryption: " + e.Message;
             }
         }
 
