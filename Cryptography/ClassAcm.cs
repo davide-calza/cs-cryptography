@@ -32,24 +32,7 @@ namespace Cryptography
         /// <exception cref="Exception"></exception>
         public static IEnumerable<string> DecryptFileList(IEnumerable<string> files, string outDir, string key)
         {
-            var logs = new List<string>();
-
-            try
-            {
-                if (!Directory.Exists(outDir))
-                    throw new Exception("Directory not found");
-                if (string.IsNullOrEmpty(key))
-                    throw new Exception("Null key");
-            }
-            catch (Exception e)
-            {
-                logs.Add("Exception on decryption: " + e.Message);
-                return logs;
-            }
-
-            logs.AddRange(files.Select(f => DecryptFile(f, outDir, key)));
-
-            return logs;
+            return files.Select(f => DecryptFile(f, outDir, key));
         }
 
         /// <summary>
@@ -193,7 +176,7 @@ namespace Cryptography
             }
             catch (Exception e)
             {
-                return "Exception on decryption: " + e;
+                return "Exception on decryption: " + e.Message;
             }
         }
 

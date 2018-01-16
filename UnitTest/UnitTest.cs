@@ -6,6 +6,7 @@ using Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Forms;
 using System;
+using System.Text;
 
 namespace UnitTest
 {
@@ -39,7 +40,7 @@ namespace UnitTest
             Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {"./umpalumpa.txt"}, dir, key).ToList().ElementAt(0), "Exception on encryption: File not found");
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, "./umpalumpa", key).ToList().ElementAt(0), "Exception on encryption: Directory not found");
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, dir, "").ToList().ElementAt(0), "Exception on encryption: Null key");
-            File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx"));
+            File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx")).Close();
             Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {Path.ChangeExtension(testList.ElementAt(0), ".docx")}, dir, key).ToList().ElementAt(0), "Exception on encryption: Wrong file format. This function can encrypt only .txt files");
             File.Create(dir + "/empty.txt").Close();
             Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() { dir+"/empty.txt" }, dir, key).ToList().ElementAt(0), "Exception on encryption: Empty file");
@@ -61,9 +62,18 @@ namespace UnitTest
                 "File successfully decrypted: " + dir + "/" + Path.GetFileNameWithoutExtension(testList.ElementAt(2)) +
                 "_dec.txt"
             };
+            //OK
             CollectionAssert.AreEqual(ClassAcm.DecryptFileList(testList, dir, key).ToList(), sol);
+            //Exceptions//Exceptions
+            Assert.AreEqual(ClassAcm.DecryptFileList(new List<string>() { "./umpalumpa.txt" }, dir, key).ToList().ElementAt(0), "Exception on decryption: File not found");
             Assert.AreEqual(ClassAcm.DecryptFileList(testList, "./umpalumpa", key).ToList().ElementAt(0), "Exception on decryption: Directory not found");
             Assert.AreEqual(ClassAcm.DecryptFileList(testList, dir, "").ToList().ElementAt(0), "Exception on decryption: Null key");
+            File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx")).Close();
+            Assert.AreEqual(ClassAcm.DecryptFileList(new List<string>() { Path.ChangeExtension(testList.ElementAt(0), ".docx") }, dir, key).ToList().ElementAt(0), "Exception on decryption: Wrong file format. This function can decrypt only .acm files");
+            File.Create(dir + "/empty.acm").Close();
+            Assert.AreEqual(ClassAcm.DecryptFileList(new List<string>() { dir + "/empty.acm" }, dir, key).ToList().ElementAt(0), "Exception on decryption: Empty file");
+            File.WriteAllText(testList.ElementAt(0), File.ReadAllText(testList.ElementAt(0)).Replace("Hash=", "Hash=r"));
+            Assert.AreEqual(ClassAcm.DecryptFileList(testList, dir, key).ToList().ElementAt(0), "Exception on decryption: MD5 hash functions not corresponding");
         }
 
         [TestMethod]
