@@ -6,7 +6,7 @@ using Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Forms;
 using System;
-using System.Text;
+using System.Text.RegularExpressions;
 
 namespace UnitTest
 {
@@ -79,6 +79,7 @@ namespace UnitTest
         [TestMethod]
         public void TestVerifyMd5AcmList()
         {
+            var dir = ConfigurationManager.AppSettings.Get("test_dir");
             var key = ConfigurationManager.AppSettings.Get("secret_key");
             var md5_1 = ConfigurationManager.AppSettings.Get("txt_file_md5_1").ToUpper();
             var md5_2 = ConfigurationManager.AppSettings.Get("txt_file_md5_2").ToUpper();
@@ -90,8 +91,31 @@ namespace UnitTest
                 testList.ElementAt(1) + " = " + md5_2 + " successfully verified",
                 testList.ElementAt(2) + " = " + md5_3 + " successfully verified"
             };
+            //OK
             CollectionAssert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, key).ToList(), sol);
-            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, "").ToList().ElementAt(0), "Exception on MD5 verification: Null key");
+            //Exceptions
+            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(new List<string>() { "./umpalumpa.txt" }, key).ToList().ElementAt(0), "./umpalumpa.txt = Exception on MD5 verification: File not found");
+            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, "").ToList().ElementAt(0),testList.ElementAt(0) + " = Exception on MD5 verification: Null key");
+            File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx")).Close();
+            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(new List<string>() { Path.ChangeExtension(testList.ElementAt(0), ".docx") }, key).ToList().ElementAt(0), Path.ChangeExtension(testList.ElementAt(0), ".docx") + " = Exception on MD5 verification: Wrong file format. This function can verify only .acm files");
+            File.Create(dir + "/empty.acm").Close();
+            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(new List<string>() { dir + "/empty.acm" }, key).ToList().ElementAt(0), dir + "/empty.acm" + " = Exception on MD5 verification: Empty file");
+            File.WriteAllText(testList.ElementAt(0), File.ReadAllText(testList.ElementAt(0)).Replace("Hash=", "Hash=r"));
+            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, key).ToList().ElementAt(0), testList.ElementAt(0) + " = Exception on MD5 verification: MD5 hash functions not corresponding");
+            File.Delete(testList.ElementAt(0));
+            File.Create(testList.ElementAt(0)).Close();
+            using (var sw = new StreamWriter(testList.ElementAt(0), true))
+            {                
+                sw.WriteLine("ACM");
+                sw.WriteLine("File=" + Path.GetFileName(testList.ElementAt(0)));
+                sw.WriteLine("Hash=");
+                sw.WriteLine("Size=" + ConfigurationManager.AppSettings.Get("aes_1").Length);
+                sw.WriteLine("Type=AES");
+                sw.WriteLine("@@@@@");
+                sw.WriteLine(ConfigurationManager.AppSettings.Get("aes_1"));
+                sw.Close();
+            }
+                Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, key).ToList().ElementAt(0), testList.ElementAt(0) + " = Exception on MD5 verification: Error on MD5 calculation");
         }
 
         [TestMethod]

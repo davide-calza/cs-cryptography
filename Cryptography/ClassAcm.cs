@@ -43,22 +43,7 @@ namespace Cryptography
         /// <returns>logs</returns>
         public static IEnumerable<string> VerifyAcmMd5List(IEnumerable<string> files, string key)
         {
-            var logs = new List<string>();
-
-            try
-            { 
-                if (string.IsNullOrEmpty(key))
-                    throw new Exception("Null key");
-            }
-            catch (Exception e)
-            {
-                logs.Add("Exception on MD5 verification: " + e.Message);
-                return logs;
-            }
-
-            logs = files.Select(f => f + " = " + VerifyMd5AcmFile(f, key)).ToList();
-
-            return logs;
+            return files.Select(f => f + " = " + VerifyMd5AcmFile(f, key)).ToList();
         }
 
         /// <summary>
@@ -191,28 +176,33 @@ namespace Cryptography
         {
             try
             {
-                if (!File.Exists(fileName))
+                if (string.IsNullOrEmpty(key))
+                    throw new Exception("Null key");                
+                
+                var plainMd5 = AcmMd5FileString(fileName);
+
+                if (plainMd5 == "Exception on MD5 calculation: File not found")
                     throw new Exception("File not found");
-                if (Path.GetExtension(fileName) != ".acm")
-                    throw new Exception("Wrong file format. This function can encrypt only .acm files");
+                if (plainMd5 == "Exception on MD5 calculation: Wrong file format. This function can verify only .acm files")
+                    throw new Exception("Wrong file format. This function can verify only .acm files");
+                if (plainMd5 == "Exception on MD5 calculation: Empty file")
+                    throw new Exception("Empty file");
+                if (plainMd5 == "Exception on MD5 calculation: Error on MD5 calculation")
+                    throw new Exception("Error on MD5 calculation");
 
                 var sFile = File.ReadAllLines(fileName).ToList(); //text
 
-                if (sFile.Count == 0)
-                    throw new Exception("Empty file");
-
-                var plainMd5 = AcmMd5FileString(fileName);
                 var calcMd5 = CryptoUtils.HashMD5(CryptoUtils.DecryptAES(sFile.ElementAt(6), key));
 
                 if (plainMd5 != calcMd5)
-                    throw new Exception("Md5 not coincident!");
+                    throw new Exception("MD5 hash functions not corresponding");
 
                 return plainMd5 + " successfully verified";
             }
             catch (Exception e)
             {
-                return "Exception on MD5 verify: " + e;
-            }
+                return "Exception on MD5 verification: " + e.Message;
+            }            
         }
 
         /// <summary>
@@ -228,7 +218,7 @@ namespace Cryptography
                 if (!File.Exists(fileName))
                     throw new Exception("File not found");
                 if (Path.GetExtension(fileName) != ".acm")
-                    throw new Exception("Wrong file format. This function can encrypt only .acm files");
+                    throw new Exception("Wrong file format. This function can verify only .acm files");
 
                 var sFile = File.ReadAllLines(fileName).ToList(); //text
 
@@ -237,14 +227,14 @@ namespace Cryptography
 
                 var md5 = sFile.ElementAt(2).Split('=')[1];
 
-                if (md5 == null)
+                if (string.IsNullOrEmpty(md5))
                     throw new Exception("Error on MD5 calculation");
 
                 return md5;
             }
             catch (Exception e)
             {
-                return "Exception on MD5 calculation: " + e;
+                return "Exception on MD5 calculation: " + e.Message;                
             }
         }
 
