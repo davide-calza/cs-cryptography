@@ -20,7 +20,7 @@ namespace App
         {
             ofd.Multiselect = multiSelection;
             ofd.Title = title;
-            ofd.InitialDirectory = ConfigurationManager.AppSettings.Get("last_open_path");
+            ofd.InitialDirectory = ConfigurationManager.AppSettings.Get("last_open_path");            
 
             if (ofd.ShowDialog() != DialogResult.OK) return null;
             ConfigurationManager.AppSettings.Set("last_open_path", Path.GetDirectoryName(ofd.FileName));

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using MaterialSkin;
 using MaterialSkin.Controls;
-using Cryptography;
+using CryptoLib;
 
 namespace App
 {

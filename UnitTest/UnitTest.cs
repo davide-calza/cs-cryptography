@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using Cryptography;
+using CryptoLib;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Forms;
 using System;

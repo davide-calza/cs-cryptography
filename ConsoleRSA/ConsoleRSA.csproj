@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B6190606-E938-45AA-B30B-504A23B9493F}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>App</RootNamespace>
-    <AssemblyName>App</AssemblyName>
+    <ProjectGuid>{9B1F2ECE-7043-450F-B05C-89466E433905}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ConsoleRSA</RootNamespace>
+    <AssemblyName>ConsoleRSA</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,53 +32,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialSkin.Updated.0.2.2\lib\MaterialSkin.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="App.Designer.cs">
-      <DependentUpon>App.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FileManager.cs" />
-    <Compile Include="GetKey.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GetKey.Designer.cs">
-      <DependentUpon>GetKey.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
-    <EmbeddedResource Include="App.resx">
-      <DependentUpon>App.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GetKey.resx">
-      <DependentUpon>GetKey.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cryptography\CryptoLib.csproj">
-      <Project>{ad49e9a7-3871-4d54-94e2-325a9a2aa30c}</Project>
-      <Name>CryptoLib</Name>
-    </ProjectReference>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

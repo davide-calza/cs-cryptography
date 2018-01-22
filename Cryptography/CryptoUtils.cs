@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace Cryptography
+namespace CryptoLib
 {
     public static class CryptoUtils
     {
-
+        public const string version = "Crypto_Utils - Ver 1.1 del 22/01/2018";
         // https://msdn.microsoft.com/it-it/library/system.security.cryptography.symmetricalgorithm(v=vs.110).aspx
         // https://msdn.microsoft.com/it-it/library/system.security.cryptography.aes(v=vs.110).aspx
         // https://rushfrisby.com/c-cryptography-library-md5-sha1-sha2-aes-3des/
@@ -203,6 +203,71 @@ namespace Cryptography
             return bytes;
         }
 
+        public static string Base64_Encode(string s)
+        {
+            var sBytes = Encoding.UTF8.GetBytes(s);
+            return Convert.ToBase64String(sBytes);
+        }
+
+        public static string Base64_Decode(string s)
+        {
+            var sBytes = Convert.FromBase64String(s);
+            return Encoding.UTF8.GetString(sBytes);
+        }
+
+        #endregion
+
+        #region RSA
+
+        public static string EncryptRSA(string plaintext, string pubXML_key)
+        {
+            using (var rsa = new RSACryptoServiceProvider(1024))
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(plaintext))
+                        throw new Exception("Null text");
+                    if (string.IsNullOrEmpty(pubXML_key))
+                        throw new Exception("Null key");
+
+                    rsa.FromXmlString(pubXML_key);
+                    return Convert.ToBase64String(rsa.Encrypt(Encoding.UTF8.GetBytes(plaintext), true));
+                }
+                catch(Exception e)
+                {
+                    return "Exception on RSA Encryption: " + e.Message;
+                }
+                finally
+                {
+                    rsa.PersistKeyInCsp = false;
+                }
+            }
+        }
+
+        public static string DecryptRSA(string ciphertext, string privXML_key)
+        {
+            using (var rsa = new RSACryptoServiceProvider(1024))
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(ciphertext))
+                        throw new Exception("Null text");
+                    if (string.IsNullOrEmpty(privXML_key))
+                        throw new Exception("Null key");
+
+                    rsa.FromXmlString(privXML_key);
+                    return Encoding.UTF8.GetString(rsa.Decrypt(Convert.FromBase64String(ciphertext), true));
+                }
+                catch(Exception e)
+                {
+                    return "Exception on RSA Encryption: " + e.Message; ;
+                }
+                finally
+                {
+                    rsa.PersistKeyInCsp = false;
+                }
+            }
+        }
         #endregion
     }
 }
