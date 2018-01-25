@@ -260,7 +260,7 @@ namespace CryptoLib
                 }
                 catch(Exception e)
                 {
-                    return "Exception on RSA Encryption: " + e.Message; ;
+                    return "Exception on RSA Decryption: " + e.Message; ;
                 }
                 finally
                 {
