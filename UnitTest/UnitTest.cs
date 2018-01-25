@@ -13,7 +13,6 @@ namespace UnitTest
     [TestClass]
     public class UnitTestCryptography
     {
-        /********************ENCRYPT********************/
         [TestMethod]
         public void TestEncryptFileListOk()
         {
@@ -30,14 +29,14 @@ namespace UnitTest
             //OK return
             var sol = new List<string>()
             {
-                "File successfully encrypted: " + file1 + "\r\nMD5 = " + md5_1,
-                "File successfully encrypted: " + file2 + "\r\nMD5 = " + md5_2,
-                "File successfully encrypted: " + file3 + "\r\nMD5 = " + md5_3,
+                $"File successfully encrypted: {file1}\r\nMD5 = {md5_1}",
+                $"File successfully encrypted: {file2}\r\nMD5 = {md5_2}",
+                $"File successfully encrypted: {file3}\r\nMD5 = {md5_3}",
             };
             //OK
             CollectionAssert.AreEqual(ClassAcm.EncryptFileList(testList, dir, key).ToList(), sol);
             //Exceptions
-            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {"./umpalumpa.txt"}, dir, key).ToList().ElementAt(0), "Exception on encryption: File not found");
+            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {"./umpalumpa.txt"}, outDir: dir, key: key).ToList().ElementAt(0), "Exception on encryption: File not found");
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, "./umpalumpa", key).ToList().ElementAt(0), "Exception on encryption: Directory not found");
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, dir, "").ToList().ElementAt(0), "Exception on encryption: Null key");
             File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx")).Close();
@@ -140,6 +139,11 @@ namespace UnitTest
             Assert.AreEqual(ClassAcm.CalculateTxtMd5List(new List<string>() { Path.ChangeExtension(testList.ElementAt(0), ".docx") }).ToList().ElementAt(0), Path.ChangeExtension(testList.ElementAt(0), ".docx") + " = Exception on MD5 calculation: Wrong file format. This function can encrypt only .txt files");
             File.Create(dir + "/empty.txt").Close();
             Assert.AreEqual(ClassAcm.CalculateTxtMd5List(new List<string>() { dir + "/empty.txt" }).ToList().ElementAt(0), dir + "/empty.txt" + " = Exception on MD5 calculation: Empty file");
+        }
+        [TestMethod]
+        public void TestConsoleRSA()
+        {
+            
         }
 
         private static IEnumerable<string> GenerateTxtFilesList()
