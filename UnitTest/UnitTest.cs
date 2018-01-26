@@ -182,7 +182,14 @@ namespace UnitTest
         [TestMethod]
         public void TestRSAEncryptFile()
         {
+            var input = ConfigurationManager.AppSettings.Get("RSA_txt_in");
+            var output = ConfigurationManager.AppSettings.Get("RSA_rsa_out");
+            var key = ConfigurationManager.AppSettings.Get("RSA_pub_key");            
 
+            //OK
+            Assert.AreEqual(ClassRsa.Encrypt(input, output, key), "File successfully encrypted");
+            //Exceptions
+            
         }
 
         private static IEnumerable<string> GenerateTxtFilesList()
