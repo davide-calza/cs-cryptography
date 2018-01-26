@@ -14,7 +14,7 @@ namespace UnitTest
     public class UnitTestCryptography
     {
         [TestMethod]
-        public void TestEncryptFileListOk()
+        public void TestACMEncryptFileListOk()
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");
             var key = ConfigurationManager.AppSettings.Get("secret_key");
@@ -47,7 +47,7 @@ namespace UnitTest
         }
 
         [TestMethod] 
-        public void TestDecryptFileList()
+        public void TestACMDecryptFileList()
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");
             var key = ConfigurationManager.AppSettings.Get("secret_key");
@@ -76,7 +76,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void TestVerifyMd5AcmList()
+        public void TestACMVerifyMd5AcmList()
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");
             var key = ConfigurationManager.AppSettings.Get("secret_key");
@@ -118,7 +118,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void TestCalculateMd5TxtList()
+        public void TestACMCalculateMd5TxtList()
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");
             var md5_1 = ConfigurationManager.AppSettings.Get("txt_file_md5_1").ToUpper();
@@ -151,9 +151,7 @@ namespace UnitTest
             var testo__2 = "Hello World!";
 
             var s1_enc = CryptoUtils.EncryptRSA(testo__1, pubKey_1);
-            var s1_dec = CryptoUtils.DecryptRSA(s1_enc, priKey_1);
-
-            MessageBox.Show(s1_enc);
+            var s1_dec = CryptoUtils.DecryptRSA(s1_enc, priKey_1);            
 
             Assert.AreEqual(s1_dec, testo__1);
 
@@ -179,6 +177,12 @@ namespace UnitTest
             Assert.AreEqual(Code2, CryptoUtils.Base64_Encode(Text2));
 
             Assert.AreNotEqual(Code2, CryptoUtils.Base64_Encode("ITT - Marconi Rovereto"));
+        }
+
+        [TestMethod]
+        public void TestRSAEncryptFile()
+        {
+
         }
 
         private static IEnumerable<string> GenerateTxtFilesList()

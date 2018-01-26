@@ -22,18 +22,24 @@ namespace ConsoleRSA
                 if (args.Length != 4)
                     throw new Exception("Syntax error");
 
-                var com = args[0].ToUpper();
+                //command
+                var com = args[0].ToUpper(); 
                 if (com != "ENC" && com != "DEC")
                     throw new Exception("Unknown command");
 
+                //XML file containing key
                 var keyFile = args[1];
+
+                //input file
                 var inp = args[2];
+
+                //output file
                 var outp = args[3];
                 
                 switch(com)
                 {
-                    case "ENC": Console.WriteLine(Encrypt(inp, outp, keyFile)); break;
-                    case "DEC": Console.WriteLine(Decrypt(inp, outp, keyFile)); break;
+                    case "ENC": Console.WriteLine(ClassRsa.Encrypt(inp, outp, keyFile)); break;
+                    case "DEC": Console.WriteLine(ClassRsa.Decrypt(inp, outp, keyFile)); break;
                     default: throw new Exception("Unknown command"); 
                 }
             }
@@ -42,92 +48,10 @@ namespace ConsoleRSA
                 Console.WriteLine("Exception: " + e.Message);
                 Help();
             }		
-        }
+        }        
 
         /// <summary>
-        /// Encrypts a file with RSA algorithm
-        /// </summary>
-        /// <param name="input">input txt file</param>
-        /// <param name="output">output rsa file</param>
-        /// <param name="keyFile">xml key file</param>
-        /// <returns></returns>
-        private static string Encrypt(string input, string output, string keyFile)
-        {
-            try
-            {
-                if (!File.Exists(input))
-                    throw new Exception(input + " not found");
-                if (!File.Exists(keyFile))
-                    throw new Exception(keyFile + " not found");
-                if (!Directory.Exists(Path.GetDirectoryName(output)))
-                    throw new Exception("Output directory not found");
-                if (Path.GetExtension(input) != ".txt")
-                    throw new Exception("Wrong input file format");
-                if (Path.GetExtension(output) != ".rsa")
-                    throw new Exception("Wrong output file format");
-                if (Path.GetExtension(keyFile) != ".xml")
-                    throw new Exception("Wrong key file format");
-                if (string.IsNullOrEmpty(File.ReadAllText(input)))
-                    throw new Exception("Empty file");
-                if (string.IsNullOrEmpty(File.ReadAllText(keyFile)))
-                    throw new Exception("Empty file");
-
-                var res = CryptoUtils.EncryptRSA(File.ReadAllText(input).Trim(), File.ReadAllText(keyFile).Trim());
-                if (res.Split(' ')[0] == "Exception")
-                    throw new Exception(res);
-                File.WriteAllText(output, res);
-
-                return "File successfully encrypted";
-            }
-            catch (Exception e)
-            {
-                return "Exception on encryption: " + e.Message;
-            }
-        }
-
-        /// <summary>
-        /// Decode a RSA encrypted file
-        /// </summary>
-        /// <param name="input">input rsa file</param>
-        /// <param name="output">output txt file</param>
-        /// <param name="keyFile">xml key file</param>
-        /// <returns></returns>
-        private static string Decrypt(string input, string output, string keyFile)
-        {
-            try
-            {
-                if (!File.Exists(input))
-                    throw new Exception(input + " not found");
-                if (!File.Exists(keyFile))
-                    throw new Exception(keyFile + " not found");
-                if (!Directory.Exists(Path.GetDirectoryName(output)))
-                    throw new Exception("Output directory not found");
-                if (Path.GetExtension(input) != ".rsa")
-                    throw new Exception("Wrong input file format");
-                if (Path.GetExtension(output) != ".txt")
-                    throw new Exception("Wrong output file format");
-                if (Path.GetExtension(keyFile) != ".xml")
-                    throw new Exception("Wrong key file format");
-                if (string.IsNullOrEmpty(File.ReadAllText(input)))
-                    throw new Exception("Empty file");
-                if (string.IsNullOrEmpty(File.ReadAllText(keyFile)))
-                    throw new Exception("Empty file");
-                                
-                var res = CryptoUtils.DecryptRSA(File.ReadAllText(input).Trim(), File.ReadAllText(keyFile).Trim());
-                if (res.Split(' ')[0] == "Exception")
-                    throw new Exception(res);
-                File.WriteAllText(output, res);
-
-                return "File successfully decrypted";
-            }
-            catch (Exception e)
-            {
-                return "Exception on decryption: " + e.Message;
-            }
-        }
-
-        /// <summary>
-        /// Print help summaryS
+        /// Print help summary
         /// </summary>
         private static void Help()
         {

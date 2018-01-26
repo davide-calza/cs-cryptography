@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassAcm.cs" />
+    <Compile Include="ClassRsa.cs" />
     <Compile Include="CryptoUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
