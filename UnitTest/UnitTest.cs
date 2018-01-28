@@ -212,6 +212,40 @@ namespace UnitTest
             Assert.AreEqual(ClassRsa.Encrypt(input, output, testKey), "Exception on encryption: Empty key file");
         }
 
+        [TestMethod]
+        public void TestRSADecryptFile()
+        {
+            GenerateRSATestFiles();
+            GenerateRSATestFiles();
+            var rsaDir = ConfigurationManager.AppSettings.Get("rsa_dir");
+            var input = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_rsa_in");
+            var output = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_txt_out");
+            var key = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_priv_key");
+
+            //OK
+            Assert.AreEqual(ClassRsa.Decrypt(input, output, key), "File successfully decrypted");
+            //Exceptions
+            Assert.AreEqual(ClassRsa.Decrypt("carciofo.rsa", output, key), "Exception on decryption: carciofo.rsa not found");
+            Assert.AreEqual(ClassRsa.Decrypt(input, output, "carciofo.xml"), "Exception on decryption: carciofo.xml not found");
+            Assert.AreEqual(ClassRsa.Decrypt(input, "./cartella/out.txt", key), "Exception on decryption: Output directory not found");
+            var testInput = rsaDir + '/' + Path.GetFileNameWithoutExtension(input) + ".docx";
+            File.Create(testInput).Close();
+            Assert.AreEqual(ClassRsa.Decrypt(testInput, output, key), "Exception on decryption: Wrong input file format");
+            var testOutput = rsaDir + '/' + Path.GetFileNameWithoutExtension(output) + ".docx";
+            File.Create(testOutput).Close();
+            Assert.AreEqual(ClassRsa.Decrypt(input, testOutput, key), "Exception on decryption: Wrong output file format");
+            var testKey = rsaDir + '/' + Path.GetFileNameWithoutExtension(key) + ".docx";
+            File.Create(testKey).Close();
+            Assert.AreEqual(ClassRsa.Decrypt(input, output, testKey), "Exception on decryption: Wrong key file format");
+            testInput = input;
+            File.WriteAllText(testInput, "");
+            Assert.AreEqual(ClassRsa.Decrypt(testInput, output, key), "Exception on decryption: Empty rsa file");
+            File.WriteAllText(testInput, "2sZQzP1EYkwxZm66llsuIPEzec4G1GzVpWljDuGfSc20INCO/JyfCfX7wvIE3GtuPjFtn0wKKlO0jxgPJrDchA5XPgCRvhJUzdtfWeW5Nclqs6PCID8hC00hYzncSW6+iPUKPrrXGMqs+mO2t08xFaRpXHmxDCaBCR++PLNjfmw=");
+            testKey = key;
+            File.WriteAllText(testKey, "");
+            Assert.AreEqual(ClassRsa.Decrypt(input, output, testKey), "Exception on decryption: Empty key file");
+        }
+
         private static IEnumerable<string> GenerateTxtFilesList()
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");
@@ -321,7 +355,7 @@ namespace UnitTest
             File.Create(txtInp).Close();
             File.WriteAllText(txtInp, "Prova 1");
             File.Create(rsaInp).Close();
-            File.WriteAllText(rsaInp, "Prova 1");
+            File.WriteAllText(rsaInp, "2sZQzP1EYkwxZm66llsuIPEzec4G1GzVpWljDuGfSc20INCO/JyfCfX7wvIE3GtuPjFtn0wKKlO0jxgPJrDchA5XPgCRvhJUzdtfWeW5Nclqs6PCID8hC00hYzncSW6+iPUKPrrXGMqs+mO2t08xFaRpXHmxDCaBCR++PLNjfmw=");
             File.Create(pub).Close();
             File.WriteAllText(pub, pubKey);
             File.Create(priv).Close();
