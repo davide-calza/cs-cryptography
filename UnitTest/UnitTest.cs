@@ -36,17 +36,17 @@ namespace UnitTest
             //OK
             CollectionAssert.AreEqual(ClassAcm.EncryptFileList(testList, dir, key).ToList(), sol);
             //Exceptions
-            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {"./umpalumpa.txt"}, outDir: dir, key: key).ToList().ElementAt(0), "Exception on encryption: File not found");
+            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() { "./umpalumpa.txt" }, outDir: dir, key: key).ToList().ElementAt(0), "Exception on encryption: File not found");
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, "./umpalumpa", key).ToList().ElementAt(0), "Exception on encryption: Directory not found");
             Assert.AreEqual(ClassAcm.EncryptFileList(testList, dir, "").ToList().ElementAt(0), "Exception on encryption: Null key");
             File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx")).Close();
-            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() {Path.ChangeExtension(testList.ElementAt(0), ".docx")}, dir, key).ToList().ElementAt(0), "Exception on encryption: Wrong file format. This function can encrypt only .txt files");
+            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() { Path.ChangeExtension(testList.ElementAt(0), ".docx") }, dir, key).ToList().ElementAt(0), "Exception on encryption: Wrong file format. This function can encrypt only .txt files");
             File.Create(dir + "/empty.txt").Close();
-            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() { dir+"/empty.txt" }, dir, key).ToList().ElementAt(0), "Exception on encryption: Empty file");
+            Assert.AreEqual(ClassAcm.EncryptFileList(new List<string>() { dir + "/empty.txt" }, dir, key).ToList().ElementAt(0), "Exception on encryption: Empty file");
 
         }
 
-        [TestMethod] 
+        [TestMethod]
         public void TestACMDecryptFileList()
         {
             var dir = ConfigurationManager.AppSettings.Get("test_dir");
@@ -94,7 +94,7 @@ namespace UnitTest
             CollectionAssert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, key).ToList(), sol);
             //Exceptions
             Assert.AreEqual(ClassAcm.VerifyAcmMd5List(new List<string>() { "./umpalumpa.txt" }, key).ToList().ElementAt(0), "./umpalumpa.txt = Exception on MD5 verification: File not found");
-            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, "").ToList().ElementAt(0),testList.ElementAt(0) + " = Exception on MD5 verification: Null key");
+            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, "").ToList().ElementAt(0), testList.ElementAt(0) + " = Exception on MD5 verification: Null key");
             File.Create(Path.ChangeExtension(testList.ElementAt(0), ".docx")).Close();
             Assert.AreEqual(ClassAcm.VerifyAcmMd5List(new List<string>() { Path.ChangeExtension(testList.ElementAt(0), ".docx") }, key).ToList().ElementAt(0), Path.ChangeExtension(testList.ElementAt(0), ".docx") + " = Exception on MD5 verification: Wrong file format. This function can verify only .acm files");
             File.Create(dir + "/empty.acm").Close();
@@ -104,7 +104,7 @@ namespace UnitTest
             File.Delete(testList.ElementAt(0));
             File.Create(testList.ElementAt(0)).Close();
             using (var sw = new StreamWriter(testList.ElementAt(0), true))
-            {                
+            {
                 sw.WriteLine("ACM");
                 sw.WriteLine("File=" + Path.GetFileName(testList.ElementAt(0)));
                 sw.WriteLine("Hash=");
@@ -114,7 +114,7 @@ namespace UnitTest
                 sw.WriteLine(ConfigurationManager.AppSettings.Get("aes_1"));
                 sw.Close();
             }
-                Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, key).ToList().ElementAt(0), testList.ElementAt(0) + " = Exception on MD5 verification: Error on MD5 calculation");
+            Assert.AreEqual(ClassAcm.VerifyAcmMd5List(testList, key).ToList().ElementAt(0), testList.ElementAt(0) + " = Exception on MD5 verification: Error on MD5 calculation");
         }
 
         [TestMethod]
@@ -151,7 +151,7 @@ namespace UnitTest
             var testo__2 = "Hello World!";
 
             var s1_enc = CryptoUtils.EncryptRSA(testo__1, pubKey_1);
-            var s1_dec = CryptoUtils.DecryptRSA(s1_enc, priKey_1);            
+            var s1_dec = CryptoUtils.DecryptRSA(s1_enc, priKey_1);
 
             Assert.AreEqual(s1_dec, testo__1);
 
@@ -182,14 +182,34 @@ namespace UnitTest
         [TestMethod]
         public void TestRSAEncryptFile()
         {
-            var input = ConfigurationManager.AppSettings.Get("RSA_txt_in");
-            var output = ConfigurationManager.AppSettings.Get("RSA_rsa_out");
-            var key = ConfigurationManager.AppSettings.Get("RSA_pub_key");            
+            GenerateRSATestFiles();
+            var rsaDir = ConfigurationManager.AppSettings.Get("rsa_dir");
+            var input = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_txt_in");
+            var output = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_rsa_out");
+            var key = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_pub_key");
 
             //OK
             Assert.AreEqual(ClassRsa.Encrypt(input, output, key), "File successfully encrypted");
             //Exceptions
-            
+            Assert.AreEqual(ClassRsa.Encrypt("carciofo.txt", output, key), "Exception on encryption: carciofo.txt not found");
+            Assert.AreEqual(ClassRsa.Encrypt(input, output, "carciofo.xml"), "Exception on encryption: carciofo.xml not found");
+            Assert.AreEqual(ClassRsa.Encrypt(input, "./cartella/out.rsa", key), "Exception on encryption: Output directory not found");
+            var testInput = rsaDir + '/' + Path.GetFileNameWithoutExtension(input) + ".docx";
+            File.Create(testInput).Close();
+            Assert.AreEqual(ClassRsa.Encrypt(testInput, output, key), "Exception on encryption: Wrong input file format");
+            var testOutput = rsaDir + '/' + Path.GetFileNameWithoutExtension(output) + ".docx";
+            File.Create(testOutput).Close();
+            Assert.AreEqual(ClassRsa.Encrypt(input, testOutput, key), "Exception on encryption: Wrong output file format");
+            var testKey = rsaDir + '/' + Path.GetFileNameWithoutExtension(key) + ".docx";
+            File.Create(testKey).Close();
+            Assert.AreEqual(ClassRsa.Encrypt(input, output, testKey), "Exception on encryption: Wrong key file format");
+            testInput = input;
+            File.WriteAllText(testInput, "");
+            Assert.AreEqual(ClassRsa.Encrypt(testInput, output, key), "Exception on encryption: Empty text file");
+            File.WriteAllText(testInput, "Prova 1");
+            testKey = key;
+            File.WriteAllText(testKey, "");
+            Assert.AreEqual(ClassRsa.Encrypt(input, output, testKey), "Exception on encryption: Empty key file");
         }
 
         private static IEnumerable<string> GenerateTxtFilesList()
@@ -198,7 +218,7 @@ namespace UnitTest
             var text1 = ConfigurationManager.AppSettings.Get("txt_file_text_1");
             var text2 = ConfigurationManager.AppSettings.Get("txt_file_text_2");
             var text3 = ConfigurationManager.AppSettings.Get("txt_file_text_3");
-            var list = new List<string> {dir + "/test1.txt", dir + "/test2.txt", dir + "/test3.txt"};
+            var list = new List<string> { dir + "/test1.txt", dir + "/test2.txt", dir + "/test3.txt" };
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
             foreach (var l in list)
             {
@@ -235,7 +255,7 @@ namespace UnitTest
             var aes1 = ConfigurationManager.AppSettings.Get("aes_1");
             var aes2 = ConfigurationManager.AppSettings.Get("aes_2");
             var aes3 = ConfigurationManager.AppSettings.Get("aes_3");
-            var list = new List<string> {dir + "/test1.acm", dir + "/test2.acm", dir + "/test3.acm"};
+            var list = new List<string> { dir + "/test1.acm", dir + "/test2.acm", dir + "/test3.acm" };
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
             foreach (var l in list)
             {
@@ -275,6 +295,37 @@ namespace UnitTest
             }
 
             return list;
+        }
+
+        private static void GenerateRSATestFiles()
+        {
+            var testDir = ConfigurationManager.AppSettings.Get("test_dir");
+            var rsaDir = ConfigurationManager.AppSettings.Get("rsa_dir");
+            var txtInp = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_txt_in");
+            var txtOut = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_txt_out");
+            var rsaInp = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_rsa_in");
+            var rsaOut = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_rsa_out");
+            var pub = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_pub_key");
+            var priv = rsaDir + '/' + ConfigurationManager.AppSettings.Get("RSA_priv_key");
+            var pubKey = "<RSAKeyValue><Modulus>21wEnTU+mcD2w0Lfo1Gv4rtcSWsQJQTNa6gio05AOkV/Er9w3Y13Ddo5wGtjJ19402S71HUeN0vbKILLJdRSES5MHSdJPSVrOqdrll/vLXxDxWs/U0UT1c8u6k/Ogx9hTtZxYwoeYqdhDblof3E75d9n2F0Zvf6iTb4cI7j6fMs=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+            var privKey = "<RSAKeyValue><Modulus>21wEnTU+mcD2w0Lfo1Gv4rtcSWsQJQTNa6gio05AOkV/Er9w3Y13Ddo5wGtjJ19402S71HUeN0vbKILLJdRSES5MHSdJPSVrOqdrll/vLXxDxWs/U0UT1c8u6k/Ogx9hTtZxYwoeYqdhDblof3E75d9n2F0Zvf6iTb4cI7j6fMs=</Modulus><Exponent>AQAB</Exponent><P>/aULPE6jd5IkwtWXmReyMUhmI/nfwfkQSyl7tsg2PKdpcxk4mpPZUdEQhHQLvE84w2DhTyYkPHCtq/mMKE3MHw==</P><Q>3WV46X9Arg2l9cxb67KVlNVXyCqc/w+LWt/tbhLJvV2xCF/0rWKPsBJ9MC6cquaqNPxWWEav8RAVbmmGrJt51Q==</Q><DP>8TuZFgBMpBoQcGUoS2goB4st6aVq1FcG0hVgHhUI0GMAfYFNPmbDV3cY2IBt8Oj/uYJYhyhlaj5YTqmGTYbATQ==</DP><DQ>FIoVbZQgrAUYIHWVEYi/187zFd7eMct/Yi7kGBImJStMATrluDAspGkStCWe4zwDDmdam1XzfKnBUzz3AYxrAQ==</DQ><InverseQ>QPU3Tmt8nznSgYZ+5jUo9E0SfjiTu435ihANiHqqjasaUNvOHKumqzuBZ8NRtkUhS6dsOEb8A2ODvy7KswUxyA==</InverseQ><D>cgoRoAUpSVfHMdYXW9nA3dfX75dIamZnwPtFHq80ttagbIe4ToYYCcyUz5NElhiNQSESgS5uCgNWqWXt5PnPu4XmCXx6utco1UVH8HGLahzbAnSy6Cj3iUIQ7Gj+9gQ7PkC434HTtHazmxVgIR5l56ZjoQ8yGNCPZnsdYEmhJWk=</D></RSAKeyValue>";
+
+
+            if (!Directory.Exists(testDir)) Directory.CreateDirectory(testDir);
+            if (!Directory.Exists(rsaDir)) Directory.CreateDirectory(rsaDir);
+            if (File.Exists(txtInp)) File.Delete(txtInp);
+            if (File.Exists(rsaInp)) File.Delete(rsaInp);
+            if (File.Exists(pub)) File.Delete(pub);
+            if (File.Exists(priv)) File.Delete(priv);
+
+            File.Create(txtInp).Close();
+            File.WriteAllText(txtInp, "Prova 1");
+            File.Create(rsaInp).Close();
+            File.WriteAllText(rsaInp, "Prova 1");
+            File.Create(pub).Close();
+            File.WriteAllText(pub, pubKey);
+            File.Create(priv).Close();
+            File.WriteAllText(priv, privKey);
         }
     }
 }

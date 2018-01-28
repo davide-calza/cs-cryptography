@@ -33,13 +33,12 @@ namespace CryptoLib
                 if (Path.GetExtension(keyFile) != ".xml")
                     throw new Exception("Wrong key file format");
                 if (string.IsNullOrEmpty(File.ReadAllText(input)))
-                    throw new Exception("Empty file");
+                    throw new Exception("Empty text file");
                 if (string.IsNullOrEmpty(File.ReadAllText(keyFile)))
-                    throw new Exception("Empty file");
+                    throw new Exception("Empty key file");
 
                 var res = CryptoUtils.EncryptRSA(File.ReadAllText(input).Trim(), File.ReadAllText(keyFile).Trim());
-                if (res.Split(' ')[0] == "Exception")
-                    throw new Exception(res);
+                
                 File.WriteAllText(output, res);
 
                 return "File successfully encrypted";
