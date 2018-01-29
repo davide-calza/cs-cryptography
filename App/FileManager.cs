@@ -36,7 +36,10 @@ namespace App
         {
             fbd.Description = "Select output directory";
             fbd.SelectedPath = ConfigurationManager.AppSettings.Get("last_save_path");
-            
+
+            if(ConfigurationManager.AppSettings.Get("last_save_path") == "./")
+                fbd.SelectedPath = ConfigurationManager.AppSettings.Get("last_open_path");
+
             if (fbd.ShowDialog() != DialogResult.OK) return null;
             ConfigurationManager.AppSettings.Set("last_save_path", Path.GetDirectoryName(fbd.SelectedPath));
             return fbd.SelectedPath;
